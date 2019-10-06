@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="dist/lib/controlsfx-8.40.11.jar"/>
+	<classpathentry kind="lib" path="dist/lib/mariadb-java-client-2.4.3.jar"/>
+	<classpathentry kind="lib" path="dist/vet.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Leo Alvarado/Documents/NetBeansProjects/vet/controlsfx-8.40.11.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Leo Alvarado/Documents/NetBeansProjects/vet/mariadb-java-client-2.4.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Leo Alvarado/Documents/NetBeansProjects/vet/joda-time-2.10.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Leo Alvarado/Documents/NetBeansProjects/vet/mysql-connector-java-5.1.48.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

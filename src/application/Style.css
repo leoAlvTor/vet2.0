@@ -1,0 +1,67 @@
+#btnPacientesCSS {
+    -fx-background-image: url('Images/footPrint.png');
+    -fx-background-size: 40px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
+}
+
+#btnCalendarioCSS {
+    -fx-background-image: url('Images/calendar.png');
+    -fx-background-size: 40px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
+}
+#btnCitasCSS {
+    -fx-background-image: url('Images/appointment.png');
+    -fx-background-size: 40px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
+}
+
+#btnVentasCSS {
+    -fx-background-image: url('Images/invoice.png');
+    -fx-background-size: 40px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
+}
+
+#btnEmpleadosCSS {
+    -fx-background-image: url('Images/employees.png');
+    -fx-background-size: 40px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
+}
+
+#btnClientesCSS {
+    -fx-background-image: url('Images/client.png');
+    -fx-background-size: 40px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
+}
+#btnInventarioCSS {
+    -fx-background-image: url('Images/inventory.png');
+    -fx-background-size: 40px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
+}
+
+#btnReportesCSS {
+    -fx-background-image: url('Images/sales.png');
+    -fx-background-size: 40px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center top;
+}
+
+#btnFacturaCSS {
+    -fx-background-image: url('Images/invoice.png');
+    -fx-background-size: 100px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#btnCompraCSS {
+    -fx-background-image: url('Images/payment.png');
+    -fx-background-size: 100px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}

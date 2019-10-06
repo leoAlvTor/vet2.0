@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerPacientMain">
+   <center>
+      <SplitPane dividerPositions="0.2744755244755245" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TitledPane layoutY="-2.0" prefHeight="161.0" prefWidth="713.0" text="Crear un nuevo paciente">
+                     <content>
+                        <HBox alignment="CENTER_LEFT" prefHeight="133.0" prefWidth="711.0">
+                           <children>
+                              <Label text="Nombre del paciente:">
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtNombre" prefHeight="25.0" prefWidth="310.0" promptText="Ingrese el nombre del paciente">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </TextField>
+                              <Button fx:id="btnNuevaFicha" mnemonicParsing="false" onAction="#nuevaFicha" prefHeight="25.0" prefWidth="136.0" text="Crear nueva ficha">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TitledPane prefHeight="415.0" prefWidth="713.0" text="Listado de pacientes">
+                     <content>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                           <top>
+                              <HBox prefHeight="49.0" prefWidth="692.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Label text="Buscar paciente por nombre:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtBuscarNombre" prefHeight="25.0" prefWidth="280.0">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                           </top>
+                           <center>
+                              <TableView fx:id="tblPacientes" prefHeight="247.0" prefWidth="692.0" BorderPane.alignment="CENTER">
+                                <columns>
+                                    <TableColumn fx:id="colID" prefWidth="138.0" text="Ficha numero" />
+                                  <TableColumn fx:id="colNombre" prefWidth="254.0" text="Nombre del paciente" />
+                                  <TableColumn fx:id="colTipo" minWidth="0.0" prefWidth="298.0" text="Tipo de paciente" />
+                                </columns>
+                              </TableView>
+                           </center>
+                           <bottom>
+                              <HBox alignment="CENTER" prefHeight="47.0" prefWidth="692.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="btnAbrirFicha" mnemonicParsing="false" onAction="#abrirFicha" prefHeight="29.0" prefWidth="181.0" text="Abrir la ficha seleccionada">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="btnMain" mnemonicParsing="false" onAction="#regresarMain" prefHeight="29.0" prefWidth="181.0" text="Regresar al Menu Principal">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </bottom>
+                        </BorderPane>
+                     </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </center>
+</BorderPane>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" fx:controller="application.ControllerFacturasVenta" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <TableView fx:id="tblFacturas" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="colID" prefWidth="75.0" text="ID Factura" />
+                <TableColumn fx:id="colCliente" prefWidth="75.0" text="C.I. Cliente" />
+                  <TableColumn fx:id="colFecha" prefWidth="75.0" text="Fecha" />
+                  <TableColumn fx:id="colSubtotal" prefWidth="82.0" text="Subtotal" />
+                  <TableColumn fx:id="colIVA" prefWidth="97.0" text="IVA" />
+                  <TableColumn fx:id="colDescuento" prefWidth="94.0" text="Descuento" />
+                  <TableColumn fx:id="colTotal" prefWidth="101.0" text="Total" />
+              </columns>
+            </TableView>
+         </center>
+         <bottom>
+            <HBox alignment="CENTER" prefHeight="69.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btnAbrir" mnemonicParsing="false" onAction="#abrir" text="Abrir Factura">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnBuscarCodigo" mnemonicParsing="false" onAction="#buscarCodigo" text="Buscar Factura Por Codigo">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnListarFecha" mnemonicParsing="false" onAction="#listarFecha" text="Listar Por Fechas">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnMenu" mnemonicParsing="false" onAction="#menu" text="Menu Principal">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </bottom>
+      </BorderPane>
+   </children>
+</StackPane>

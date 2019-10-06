@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" fx:controller="application.ControllerCalendar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tblCalendario" prefHeight="300.0" prefWidth="599.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="ID" />
+                <TableColumn prefWidth="171.0" text="Empleado a Cargo" />
+                  <TableColumn prefWidth="177.0" text="Fecha de cita" />
+                  <TableColumn prefWidth="175.0" text="Paciente" />
+              </columns>
+            </TableView>
+         </children>
+      </HBox>
+   </center>
+   <top>
+      <VBox alignment="CENTER" prefHeight="144.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblDate" text="22-22-22">
+               <font>
+                  <Font name="Consolas" size="48.0" />
+               </font>
+            </Label>
+            <Separator orientation="VERTICAL" prefHeight="30.0" prefWidth="4.0" visible="false" />
+            <Button fx:id="btnCargar" mnemonicParsing="false" text="Cargar el Calendario de Citas">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="59.0" prefWidth="590.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnCita" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Abrir Cita">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnEliminar" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Eliminar Cita">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnMain" mnemonicParsing="false" prefHeight="25.0" prefWidth="171.0" text="Regresar al Menu Principal" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
+</BorderPane>

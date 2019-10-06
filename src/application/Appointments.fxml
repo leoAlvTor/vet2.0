@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerAppointments">
+   <children>
+      <VBox prefHeight="595.0" prefWidth="707.0">
+         <children>
+            <TitledPane prefHeight="162.0" prefWidth="707.0" text="Cabecera">
+               <content>
+                  <GridPane prefHeight="125.0" prefWidth="694.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="10.0" prefWidth="294.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="445.0" minWidth="10.0" prefWidth="391.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Tipo de cita:" GridPane.rowIndex="1" />
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="68.0" text="Cliente C.I.:">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="txtCI" prefHeight="25.0" prefWidth="201.0" promptText="Escriba la Cedula del cliente">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                           <children>
+                              <Label text="Empleado a cargo:">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ComboBox fx:id="comboEmpleados" prefHeight="25.0" prefWidth="247.0" promptText="-- SELECCIONE --" />
+                           </children>
+                        </HBox>
+                        <ComboBox fx:id="comboTipoCita" prefHeight="25.0" prefWidth="350.0" promptText="-- SELECCIONE --" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="ID del paciente:" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtIDPaciente" prefHeight="25.0" prefWidth="341.0" promptText="Ingrese el ID del paciente" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets right="93.0" />
+                           </GridPane.margin>
+                        </TextField>
+                     </children>
+                  </GridPane>
+               </content>
+            </TitledPane>
+            <TitledPane prefHeight="436.0" prefWidth="769.0" text="Detalles de la cita">
+               <content>
+                  <GridPane prefHeight="410.0" prefWidth="705.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="10.0" prefWidth="304.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="443.0" minWidth="10.0" prefWidth="443.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Fecha de la cita:" />
+                        <Label text="Importancia de la cita:" GridPane.rowIndex="1" />
+                        <Label text="Observaciones:" GridPane.rowIndex="2" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
+                           <children>
+                              <Button fx:id="btnGenerarCita" mnemonicParsing="false" text="Generar Cita">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="97.0" prefWidth="446.0">
+                                 <children>
+                                    <Button fx:id="btnMain" mnemonicParsing="false" text="Regresar al Menu Principal">
+                                       <VBox.margin>
+                                          <Insets bottom="4.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="btnLimpiar" mnemonicParsing="false" text="Limpiar campos">
+                                       <VBox.margin>
+                                          <Insets bottom="4.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <DatePicker fx:id="dateCita" prefHeight="25.0" prefWidth="231.0" GridPane.columnIndex="1" />
+                        <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <RadioButton fx:id="radioAlta" mnemonicParsing="false" text="Importancia Alta">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </RadioButton>
+                              <RadioButton fx:id="radioMedia" mnemonicParsing="false" text="Importancia Media">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </RadioButton>
+                              <RadioButton fx:id="radioBaja" mnemonicParsing="false" text="Importancia Baja">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </RadioButton>
+                           </children>
+                        </VBox>
+                        <TextArea fx:id="txtAreaObs" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+               </content>
+            </TitledPane>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

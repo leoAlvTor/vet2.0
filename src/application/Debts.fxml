@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="647.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerDebt">
+   <children>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Lista De Deudores">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+          <Tab text="Datos Deudor">
+               <content>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.4448051948051948" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                           <items>
+                              <StackPane prefHeight="150.0" prefWidth="200.0">
+                                 <children>
+                                    <GridPane>
+                                       <children>
+                                          <Label text="C.I. DEL CLIENTE:" />
+                                          <Label text="I.D. FACTURA:" GridPane.rowIndex="1" />
+                                          <Label text="MONTO ORIGINAL A CANCELAR:" GridPane.rowIndex="2" />
+                                          <Label text="MONTO TOTAL CANCELADO:" GridPane.rowIndex="3" />
+                                          <TextField fx:id="txtDebCI" editable="false" GridPane.columnIndex="1" />
+                                          <TextField fx:id="txtDebIDFac" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextField fx:id="txtDebMontoORG" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <TextField fx:id="txtDebMontoTot" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Label text="VALOR CANCELADO:" GridPane.rowIndex="4" />
+                                          <Label text="FECHA DE CANCELACION:" GridPane.rowIndex="5" />
+                                          <TextField fx:id="txtDebValorCancel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="6">
+                                             <children>
+                                                <Button fx:id="btnDebAgregar" mnemonicParsing="false" text="Agregar Pago">
+                                                   <HBox.margin>
+                                                      <Insets right="10.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                                <Button fx:id="btnDebEliminar" mnemonicParsing="false" text="ELIMINAR DEUDA" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                             <children>
+                                                <Button fx:id="btnDebMain" mnemonicParsing="false" text="Regresar al Menu" />
+                                             </children>
+                                          </HBox>
+                                          <DatePicker fx:id="dateDebCancel" prefHeight="25.0" prefWidth="291.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                       </children>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <StackPane.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </StackPane.margin>
+                                    </GridPane>
+                                 </children>
+                              </StackPane>
+                              <StackPane prefHeight="150.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="tblDebDeudas" prefHeight="200.0" prefWidth="200.0">
+                                      <columns>
+                                        <TableColumn prefWidth="75.0" text="C.I." />
+                                        <TableColumn prefWidth="130.0" text="ID Factura" />
+                                          <TableColumn prefWidth="125.0" text="Monto a Cancelar" />
+                                          <TableColumn prefWidth="127.0" text="Monto Cancelado" />
+                                          <TableColumn prefWidth="138.0" text="Fecha de Cancelacion" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </StackPane>
+                           </items>
+                        </SplitPane>
+                     </children>
+                  </StackPane>
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</StackPane>
