@@ -209,7 +209,7 @@ public class ControllerFacturasVenta {
 	private void cargarXFecha(String fecha1, String fecha2){
 		HashMap<Integer, FacturaCabecera> mapaFacturaVentaXFecha = dbQueries.getMapaFacturaVentaXFecha(fecha1, fecha2);
 
-		if(mapaFacturaVentaXFecha != null){
+		if(mapaFacturaVentaXFecha.size() != 0){
 			listaFacturaCabeceras = new ArrayList<>(mapaFacturaVentaXFecha.values());
 			cargarTabla(listaFacturaCabeceras);
 		}else

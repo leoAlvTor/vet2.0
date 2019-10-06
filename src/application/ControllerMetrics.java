@@ -24,7 +24,7 @@ public class ControllerMetrics {
 	}
 	
 	public void facturasCompra() throws IOException {
-		getStage(btnFacVentas, "Facturas de Compra", "facturasVenta.fxml", 600, 500);
+		getStage(btnFacVentas, "Facturas de Compra", "FacturasCompras.fxml", 600, 500);
 	}
 	
 	public void reporte() throws IOException {

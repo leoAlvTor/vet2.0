@@ -1,13 +1,6 @@
 package application.resources.controller;
 
-import application.resources.model.Customers;
-import application.resources.model.Employee;
-import application.resources.model.FacturaCabecera;
-import application.resources.model.FacturaDetalle;
-import application.resources.model.Patient;
-import application.resources.model.Product;
-import application.resources.model.Provider;
-import application.resources.model.RegistroMedico;
+import application.resources.model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -37,41 +30,8 @@ public class DBQueries {
 
     }
 
-    public FacturaCabecera getFacturaVentaXCodigo(int codigo){
-    	FacturaCabecera  objFac = null;
-    	try{
-    		connect();
-    		sql = "select * from factura_cabecera where factura_id = ?";
-    		preparedStatement = connection.prepareStatement(sql);
-    		preparedStatement.setInt(1,codigo);
-    		resultSet = preparedStatement.executeQuery();
-    		while(resultSet.next()){
-				objFac = new FacturaCabecera();
-				objFac.setNumeroFactura(String.valueOf(resultSet.getInt("factura_id")));
-				objFac.setRuc(resultSet.getString("cliente_ruc"));
-				objFac.setTipoCompra(resultSet.getString("factura_tipo"));
-				objFac.setFecha(resultSet.getString("factura_fecha"));
-				objFac.setSubtotal(resultSet.getDouble("factura_subtotal"));
-				objFac.setIva(resultSet.getDouble("factura_iva"));
-				objFac.setDescuento(resultSet.getDouble("factura_descuento"));
-				objFac.setTotal(resultSet.getDouble("factura_total"));
-
-				if(resultSet.getString("factura_anulada").equals("TRUE"))
-					objFac.anulada = true;
-				else if(resultSet.getString("factura_anulada").equals("FALSE"))
-					objFac.anulada = false;
-			}
-    		disconnect();
-    		return objFac;
-		}catch (SQLException e){
-    		disconnect();
-    		e.printStackTrace();
-    		return objFac;
-		}
-	}
-
     public HashMap<Integer, FacturaCabecera> getMapaFacturaVentaXFecha(String fecha1, String fecha2){
-		HashMap<Integer, FacturaCabecera> mapaFacturaVentaXFecha = null;
+		HashMap<Integer, FacturaCabecera> mapaFacturaVentaXFecha = new HashMap<>();
 		FacturaCabecera objFac;
 		try{
 			connect();
@@ -134,7 +94,83 @@ public class DBQueries {
     		return listaFacturaDetalles;
     	}
     }
-    
+
+    public CabeceraCompra getCabeceraCompraProveedor(String ruc){
+        CabeceraCompra objCabecera = null;
+        try{
+            connect();
+            sql = "select * from compra_cabecera where proveedor_id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,ruc);
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+                objCabecera = new CabeceraCompra();
+                objCabecera.setCompra_autorizacion(resultSet.getString("factura_id"));
+                objCabecera.setCompra_numero(resultSet.getString("autorizacion"));
+                objCabecera.setCompra_fecha(resultSet.getString("fecha"));
+                objCabecera.setCompra_for_pago(resultSet.getString("forma_pago"));
+                objCabecera.setProv_ruc(resultSet.getString("proveedor_id"));
+
+                objCabecera.setCompra_dias(resultSet.getInt("plazo"));
+
+                objCabecera.setCompra_pago_inicial(resultSet.getDouble("abono"));
+                objCabecera.setCompra_subtotal12(resultSet.getDouble("subtotal12"));
+                objCabecera.setCompra_subtotal0(resultSet.getDouble("subtotal0"));
+                objCabecera.setCompra_iva(resultSet.getDouble("totalIVA"));
+                objCabecera.setCompra_ice(resultSet.getDouble("ice"));
+                objCabecera.setCompra_irbp(resultSet.getDouble("irbp"));
+                objCabecera.setCompra_total(resultSet.getDouble("total"));
+            }
+
+            disconnect();
+            return objCabecera;
+        }catch (SQLException e){
+            disconnect();
+            System.out.println(e.getMessage());
+            return objCabecera;
+        }
+    }
+
+    public HashMap<String, CabeceraCompra> getMapaIDFacturaDet(){
+        HashMap<String, CabeceraCompra> mapaIDFactura = new HashMap<>();
+        try{
+            connect();
+
+            sql = "Select * from compra_cabecera";
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+            CabeceraCompra objCabecera;
+            while(resultSet.next()){
+                objCabecera = new CabeceraCompra();
+                objCabecera.setCompra_autorizacion(resultSet.getString("factura_id"));
+                objCabecera.setCompra_numero(resultSet.getString("autorizacion"));
+                objCabecera.setCompra_fecha(resultSet.getString("fecha"));
+                objCabecera.setCompra_for_pago(resultSet.getString("forma_pago"));
+                objCabecera.setProv_ruc(resultSet.getString("proveedor_id"));
+
+                objCabecera.setCompra_dias(resultSet.getInt("plazo"));
+
+                objCabecera.setCompra_pago_inicial(resultSet.getDouble("abono"));
+                objCabecera.setCompra_subtotal12(resultSet.getDouble("subtotal12"));
+                objCabecera.setCompra_subtotal0(resultSet.getDouble("subtotal0"));
+                objCabecera.setCompra_iva(resultSet.getDouble("totalIVA"));
+                objCabecera.setCompra_ice(resultSet.getDouble("ice"));
+                objCabecera.setCompra_irbp(resultSet.getDouble("irbp"));
+                objCabecera.setCompra_total(resultSet.getDouble("total"));
+                mapaIDFactura.put(objCabecera.getCompra_numero(), objCabecera);
+            }
+
+            disconnect();
+            return mapaIDFactura;
+
+        }catch (SQLException e){
+            disconnect();
+            System.out.println(e.getMessage());
+            return mapaIDFactura;
+        }
+    }
+
     public HashMap<Integer, FacturaCabecera> getMapaIDFacturaCab(){
     	HashMap<Integer, FacturaCabecera> mapaIDFactura = new HashMap<>();
     	try {
