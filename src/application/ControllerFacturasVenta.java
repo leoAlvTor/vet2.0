@@ -197,7 +197,7 @@ public class ControllerFacturasVenta {
 		}
 	}
 
-	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");;
+	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
 	private String dateToString(LocalDate localDate){
 		if(localDate == null)

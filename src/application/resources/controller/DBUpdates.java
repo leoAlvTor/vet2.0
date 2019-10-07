@@ -29,6 +29,31 @@ public class DBUpdates {
         }
 
     }
+
+    public String updateCompraCabecera(String ...params){
+    	try{
+    		connect();
+    		sql = "update compra_cabecera set factura_id = ?, fecha = ?, forma_pago = ?, proveedor_id = ?, plazo = ?," +
+					" abono = ? where autorizacion = ?";
+    		preparedStatement = connection.prepareStatement(sql);
+
+    		preparedStatement.setString(1, params[0]);
+			preparedStatement.setString(2, params[1]);
+			preparedStatement.setString(3, params[2]);
+			preparedStatement.setString(4, params[3]);
+			preparedStatement.setString(5, params[4]);
+
+			preparedStatement.setDouble(6, Double.parseDouble(params[5]));
+
+			preparedStatement.setString(7, params[6]);
+
+			disconnect();
+    		return "";
+		}catch (SQLException e){
+    		disconnect();
+    		return e.getMessage();
+		}
+	}
     
     public String devolverProducto(String ...params) {
     	try {
@@ -83,6 +108,7 @@ public class DBUpdates {
     		disconnect();
     		return "";
     	}catch(SQLException e) {
+    		disconnect();
     		return e.getMessage();
     	}
     }

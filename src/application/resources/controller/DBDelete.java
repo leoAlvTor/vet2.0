@@ -39,17 +39,17 @@ public class DBDelete {
         }
     }
 
-    public void deleteFacturaCompra(String factura_id){
+    public int deleteFacturaCompra(String factura_id){
         try{
-            connect();
+
             sql = "delete from compra_cabecera where factura_id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, factura_id);
             preparedStatement.executeUpdate();
-            disconnect();
+            return 0;
         }catch (SQLException e){
             disconnect();
-            System.out.println(e.getMessage());
+            return 1;
         }
     }
     

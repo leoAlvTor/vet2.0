@@ -2,6 +2,7 @@ package application;
 import application.resources.controller.DBDelete;
 import application.resources.controller.DBInserts;
 import application.resources.controller.DBQueries;
+import application.resources.controller.DBUpdates;
 import application.resources.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,7 @@ import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ControllerInvoicePurch {
@@ -539,8 +541,29 @@ public class ControllerInvoicePurch {
     
     public void actualizarCompra() {
         System.out.println("Actualizar Compra");
+        DBUpdates dbUpdates = new DBUpdates();
+        String value = dbUpdates.updateCompraCabecera(txtNumeroFAC.getText(), getFecha(dateFecha.getValue()),
+                comboFormaPago.getSelectionModel().getSelectedItem(), providerHashMap.get(txtNomProveedor.getText()).
+                        getRuc(), txtCantTiempo.getText(), txtPagoInicial.getText());
 
+        if(!value.equals(""))
+            alertaActualizacion(value);
+    }
 
+    private void alertaActualizacion(String value){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error al actualizar");
+        alert.setTitle("Ha ocurrido un error al momento de actualizar el registro.");
+        alert.setContentText("ERROR -->"+value);
+    }
+
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+    private String getFecha(LocalDate localDate){
+        if(localDate == null)
+            return "";
+        else
+            return dateTimeFormatter.format(localDate);
     }
     
     public void eliminarCompra() {
@@ -552,16 +575,25 @@ public class ControllerInvoicePurch {
     private void eliminar(){
         DBDelete dbDelete = new DBDelete();
         if(cabeceraCompra != null) {
-            dbDelete.deleteFacturaCompra(cabeceraCompra.getCompra_numero());
-            eliminarDetalles(dbDelete);
+            dbDelete.connect();
+            for(ModelDetailPurchase m : listaDetalles)
+                dbDelete.deleteFacturaCompraDetalles(Integer.parseInt(m.getCodigo()));
+            int a = dbDelete.deleteFacturaCompra(cabeceraCompra.getCompra_numero());
+            dbDelete.disconnect();
+            if(a==1)
+               alertaEliminado(cabeceraCompra.getCompra_autorizacion());
         }
     }
 
-    private void eliminarDetalles(DBDelete dbDelete){
-        for(ModelDetailPurchase m : listaDetalles){
-            dbDelete.deleteFacturaCompraDetalles(Integer.parseInt(m.getCodigo()));
-        }
+    private void alertaEliminado(String codigo){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Factura Eliminada");
+        alert.setHeaderText("Se ha eliminado la factura");
+        alert.setContentText("La factura con autorizacion: "+ codigo +
+                "\n ha sido eliminada correctamente.");
+        alert.showAndWait();
     }
+
 
     private boolean alertaEliminar(){
         Dialog dialog = new Dialog();
@@ -599,8 +631,12 @@ public class ControllerInvoicePurch {
         txtAutorizacionFAC.setText(param1.getCompra_autorizacion());
         txtNumeroFAC.setText(param1.getCompra_numero());
 
-       // LocalDate localDate = LocalDate.parse(param1.getCompra_fecha());
-       // dateFecha.setValue(localDate);
+        System.out.println(param1.getCompra_fecha());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(param1.getCompra_fecha(), formatter);
+
+       dateFecha.setValue(localDate);
 
         comboFormaPago.getSelectionModel().select(param1.getCompra_for_pago());
 
