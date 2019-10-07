@@ -66,7 +66,48 @@ public class DBQueries {
 			return mapaFacturaVentaXFecha;
 		}
 	}
-    
+
+	public List<ModelDetailPurchase> getDetalleCompras(String autorizacion){
+        List<ModelDetailPurchase> listaDetalleCompras = new ArrayList<>();
+        ModelDetailPurchase modelDetailPurchase;
+        try{
+            sql = "SELECT c.id, c.prod_id, c.cabecera_id, c.cantidad, c.p_unit, c.v_total, c.pvp_unit, c.p_caja," +
+                    " c.v_total_caja, c.pvp_caja, c.tarifa, c.fecha_vencimiento, p.prod_name FROM compra_detalle c," +
+                    " productos p WHERE cabecera_id = ? AND p.prod_id = c.prod_id;";
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, autorizacion);
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                modelDetailPurchase = new ModelDetailPurchase();
+                modelDetailPurchase.setCodigo(String.valueOf(resultSet.getInt("id")));
+                modelDetailPurchase.setDescripcion(resultSet.getString("prod_name"));
+
+                modelDetailPurchase.setCantidad(resultSet.getInt("cantidad"));
+
+                modelDetailPurchase.setP_unit(resultSet.getDouble("p_unit"));
+                modelDetailPurchase.setV_total(resultSet.getDouble("v_total"));
+                modelDetailPurchase.setPvp_unit(resultSet.getDouble("pvp_unit"));
+
+                modelDetailPurchase.setTarifa(resultSet.getString("tarifa"));
+
+                modelDetailPurchase.setP_caja(resultSet.getDouble("p_caja"));
+                modelDetailPurchase.setV_total_caja(resultSet.getDouble("v_total_caja"));
+                modelDetailPurchase.setPvp_caja(resultSet.getDouble("pvp_caja"));
+
+                modelDetailPurchase.setFecha_vencimiento(resultSet.getString("fecha_vencimiento"));
+
+                listaDetalleCompras.add(modelDetailPurchase);
+            }
+            return listaDetalleCompras;
+        }catch (SQLException e){
+            disconnect();
+            System.out.println(e.getMessage());
+            return listaDetalleCompras;
+        }
+    }
+
     public List<FacturaDetalle> getFacturasDetalles(int idCabecera){
     	List<FacturaDetalle> listaFacturaDetalles = new ArrayList<>();
     	FacturaDetalle objFacDetalle;
@@ -129,6 +170,49 @@ public class DBQueries {
             disconnect();
             System.out.println(e.getMessage());
             return objCabecera;
+        }
+    }
+
+    public HashMap<String, CabeceraCompra> getMapaIDFacturaCompraFecha(String fecha1, String fecha2){
+        HashMap<String, CabeceraCompra> mapaIDFactura = new HashMap<>();
+        try{
+            connect();
+            sql = "SELECT * FROM compra_cabecera WHERE fecha BETWEEN ? AND ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, fecha1);
+            preparedStatement.setString(2, fecha2);
+            resultSet = preparedStatement.executeQuery();
+            CabeceraCompra objCabecera;
+
+            if(!resultSet.next())
+                return null;
+            resultSet.beforeFirst();
+            while(resultSet.next()){
+                objCabecera = new CabeceraCompra();
+                objCabecera.setCompra_autorizacion(resultSet.getString("factura_id"));
+                objCabecera.setCompra_numero(resultSet.getString("autorizacion"));
+                objCabecera.setCompra_fecha(resultSet.getString("fecha"));
+                objCabecera.setCompra_for_pago(resultSet.getString("forma_pago"));
+                objCabecera.setProv_ruc(resultSet.getString("proveedor_id"));
+
+                objCabecera.setCompra_dias(resultSet.getInt("plazo"));
+
+                objCabecera.setCompra_pago_inicial(resultSet.getDouble("abono"));
+                objCabecera.setCompra_subtotal12(resultSet.getDouble("subtotal12"));
+                objCabecera.setCompra_subtotal0(resultSet.getDouble("subtotal0"));
+                objCabecera.setCompra_iva(resultSet.getDouble("totalIVA"));
+                objCabecera.setCompra_ice(resultSet.getDouble("ice"));
+                objCabecera.setCompra_irbp(resultSet.getDouble("irbp"));
+                objCabecera.setCompra_total(resultSet.getDouble("total"));
+                mapaIDFactura.put(objCabecera.getCompra_numero(), objCabecera);
+            }
+            disconnect();
+            return mapaIDFactura;
+
+        }catch (SQLException e){
+            disconnect();
+            System.out.println(e.getMessage());
+            return mapaIDFactura;
         }
     }
 

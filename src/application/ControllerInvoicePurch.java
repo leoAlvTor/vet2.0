@@ -1,9 +1,8 @@
 package application;
+import application.resources.controller.DBDelete;
 import application.resources.controller.DBInserts;
 import application.resources.controller.DBQueries;
-import application.resources.model.ModelDetailPurchase;
-import application.resources.model.Product;
-import application.resources.model.Provider;
+import application.resources.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -17,9 +16,12 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
 
+import org.controlsfx.control.spreadsheet.Grid;
 import org.controlsfx.control.spreadsheet.SpreadsheetCellType.IntegerType;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
+
+import java.time.LocalDate;
 import java.util.*;
 
 public class ControllerInvoicePurch {
@@ -75,6 +77,7 @@ public class ControllerInvoicePurch {
 
     private ModelDetailPurchase model;
 
+    private CabeceraCompra cabeceraCompra;
 
     @FXML
     public void initialize(){
@@ -104,6 +107,7 @@ public class ControllerInvoicePurch {
         dbQueries = new DBQueries();
         productList = dbQueries.getProducts();
         providerList = dbQueries.getProviders();
+        cabeceraCompra = new CabeceraCompra();
         eventoSeleccionTabla();
         
     }
@@ -513,18 +517,6 @@ public class ControllerInvoicePurch {
     	return null;
     }
     
-    /*
-     * 
-     * FUNCIONES
-     * 
-     * CON
-     * 
-     * LA
-     *
-     * BASE DE DATOS  
-     * 
-     */
-    
     public void guardarCompra() 
     {
     	DBInserts dbInserts = new DBInserts();
@@ -546,11 +538,87 @@ public class ControllerInvoicePurch {
     }
     
     public void actualizarCompra() {
-    
+        System.out.println("Actualizar Compra");
+
+
     }
     
     public void eliminarCompra() {
-    	
+        if(alertaEliminar())
+            eliminar();
+
+    }
+
+    private void eliminar(){
+        DBDelete dbDelete = new DBDelete();
+        if(cabeceraCompra != null) {
+            dbDelete.deleteFacturaCompra(cabeceraCompra.getCompra_numero());
+            eliminarDetalles(dbDelete);
+        }
+    }
+
+    private void eliminarDetalles(DBDelete dbDelete){
+        for(ModelDetailPurchase m : listaDetalles){
+            dbDelete.deleteFacturaCompraDetalles(Integer.parseInt(m.getCodigo()));
+        }
+    }
+
+    private boolean alertaEliminar(){
+        Dialog dialog = new Dialog();
+
+        GridPane grid = new GridPane();
+        grid.add(new Label("Password -->"), 0, 0);
+
+        PasswordField txtPass = new PasswordField();
+        grid.add(txtPass, 1,0);
+
+        dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.showAndWait();
+
+        if(dialog.getResult().equals(ButtonType.OK)){
+            if(txtPass.getText().equals("mundoGanadero2019"))
+                return true;
+            else
+                return false;
+        }else
+            return false;
+    }
+
+    private List<ModelDetailPurchase> listaDetalles;
+
+    public void abrirCompra(CabeceraCompra param1, List<ModelDetailPurchase> param2){
+        try{
+            thread.join();
+        }catch (InterruptedException i){
+            i.printStackTrace();
+        }
+
+        cabeceraCompra = param1;
+
+        txtAutorizacionFAC.setText(param1.getCompra_autorizacion());
+        txtNumeroFAC.setText(param1.getCompra_numero());
+
+       // LocalDate localDate = LocalDate.parse(param1.getCompra_fecha());
+       // dateFecha.setValue(localDate);
+
+        comboFormaPago.getSelectionModel().select(param1.getCompra_for_pago());
+
+        txtRUC.setText(param1.getProv_ruc());
+
+        txtCantTiempo.setText(String.valueOf(param1.getCompra_dias()));
+        txtPagoInicial.setText(String.valueOf(param1.getCompra_pago_inicial()));
+
+        txtSubtotal12.setText(String.valueOf(param1.getCompra_subtotal12()));
+        txtSubtotal0.setText(String.valueOf(param1.getCompra_subtotal0()));
+        txtIVA.setText(String.valueOf(param1.getCompra_iva()));
+        txtICE.setText(String.valueOf(param1.getCompra_ice()));
+        txtIRBP.setText(String.valueOf(param1.getCompra_irbp()));
+        txtTotal.setText(String.valueOf(param1.getCompra_total()));
+
+        listaDetalles = param2;
+
+        loadCompra(param2);
     }
     
 }

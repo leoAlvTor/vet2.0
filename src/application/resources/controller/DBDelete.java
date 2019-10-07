@@ -25,6 +25,33 @@ public class DBDelete {
         }
 
     }
+
+    public void deleteFacturaCompraDetalles(int id){
+        try{
+            //Aqui fuera el Connect
+            sql = "delete from compra_detalle where id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            // Aqui fuera el Disconnect pero no :v
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deleteFacturaCompra(String factura_id){
+        try{
+            connect();
+            sql = "delete from compra_cabecera where factura_id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, factura_id);
+            preparedStatement.executeUpdate();
+            disconnect();
+        }catch (SQLException e){
+            disconnect();
+            System.out.println(e.getMessage());
+        }
+    }
     
     public void deleteEmpleado(int empleado_id) {
     	try {

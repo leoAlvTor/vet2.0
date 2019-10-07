@@ -218,8 +218,15 @@ public class ControllerFacturasVenta {
 
 	}
 	
-	public void menu() {
-		
+	public void menu() throws IOException {
+		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MainMenu.fxml"));
+		Parent root = loader.load();
+		Stage stage = (Stage) btnAbrir.getScene().getWindow();
+		stage.setTitle("Mundo Ganadero");
+		stage.setScene(new Scene(root, 650, 490));
+		stage.centerOnScreen();
+		stage.setResizable(true);
+		stage.show();
 	}
 	
 }

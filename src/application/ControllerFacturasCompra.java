@@ -2,17 +2,28 @@ package application;
 
 import application.resources.controller.DBQueries;
 import application.resources.model.CabeceraCompra;
+import application.resources.model.DetalleCompra;
+import application.resources.model.FacturaCabecera;
+import application.resources.model.ModelDetailPurchase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ControllerFacturasCompra {
 
@@ -66,8 +77,38 @@ public class ControllerFacturasCompra {
         });
     }
 
-    public void abrirFactura(){
+    public void abrirFactura() throws IOException {
+        if(cabeceraCompra != null)
+            cargarFactura(cabeceraCompra);
+        else
+            alertaFactura();
+    }
 
+    private void cargarFactura(CabeceraCompra param1) throws IOException{
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("InvoicePurchases.fxml"));
+        Parent root = loader.load();
+        ControllerInvoicePurch invoicePurch = loader.getController();
+
+        dbQueries.connect();
+        List<ModelDetailPurchase> detalleCompras = dbQueries.getDetalleCompras(param1.getCompra_autorizacion());
+
+        invoicePurch.abrirCompra(param1, detalleCompras);
+
+        Stage stage = (Stage) btnAbrir.getScene().getWindow();
+
+        stage.setTitle("Apertura de Factura");
+        stage.setScene(new Scene(root, 960, 800));
+        stage.sizeToScene();
+        stage.centerOnScreen();
+        stage.show();
+    }
+
+    private void alertaFactura(){
+        Alert alerta = new Alert(Alert.AlertType.WARNING);
+        alerta.setTitle("Advertencia");
+        alerta.setHeaderText("Error al intentar abrir la factura.");
+        alerta.setContentText("Al parecer no ha seleccionado ninguna \n"
+                + "factura, por favor seleccione una.");
     }
 
     public void buscarProveedor(){
@@ -113,12 +154,66 @@ public class ControllerFacturasCompra {
         alert.showAndWait();
     }
 
-    public void listarFecha(){
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
+    private String dateToString(LocalDate localDate){
+        if(localDate != null)
+            return dateTimeFormatter.format(localDate);
+        else
+            return "";
     }
 
-    public void menu(){
+    public void listarFecha(){
+        Dialog dialog = new Dialog();
 
+        GridPane gridPane = new GridPane();
+
+        Label lblFecha1 = new Label("Fecha inicial:");
+        Label lblFecha2 = new Label("Fecha final:");
+
+        gridPane.add(lblFecha1, 0, 0);
+        gridPane.add(lblFecha2, 0, 1);
+
+        DatePicker datePicker1 = new DatePicker();
+        DatePicker datePicker2 = new DatePicker();
+
+        gridPane.add(datePicker1, 1, 0);
+        gridPane.add(datePicker2, 1, 1);
+
+        dialog.getDialogPane().setContent(gridPane);
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
+
+        dialog.setTitle("Seleccione un rango");
+
+        dialog.showAndWait();
+
+        if(dialog.getResult().equals(ButtonType.OK)) {
+            String fecha1 = dateToString(datePicker1.getValue());
+            String fecha2 = dateToString(datePicker2.getValue());
+            cargarXFecha(fecha1, fecha2);
+        }
+    }
+
+    private void cargarXFecha(String fecha1, String fecha2){
+        HashMap<String, CabeceraCompra> mapaFacturaVentaXFecha = dbQueries.getMapaIDFacturaCompraFecha(fecha1, fecha2);
+        if(mapaFacturaVentaXFecha != null){
+            listaFacturas = new ArrayList<>(mapaFacturaVentaXFecha.values());
+            cargarTabla(listaFacturas);
+        }else
+            alertaNotFound("{FECHA}");
+    }
+
+    public void menu() throws IOException {
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MainMenu.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) btnMenu.getScene().getWindow();
+        stage.setTitle("Mundo Ganadero");
+        stage.setScene(new Scene(root, 650, 490));
+        stage.centerOnScreen();
+        stage.setResizable(true);
+        stage.show();
     }
 
 

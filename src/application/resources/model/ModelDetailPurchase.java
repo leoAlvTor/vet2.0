@@ -10,22 +10,6 @@ public class ModelDetailPurchase {
 
     public ModelDetailPurchase(){}
 
-    public ModelDetailPurchase(String codigo, String descripcion, int cantidad, double p_unit, double v_total,
-                               double pvp_unit, String tarifa, double p_caja, double v_total_caja, double pvp_caja,
-                               String fecha_vencimiento) {
-        this.codigo = codigo;
-        this.descripcion = descripcion;
-        this.cantidad = cantidad;
-        this.p_unit = p_unit;
-        this.v_total = v_total;
-        this.pvp_unit = pvp_unit;
-        this.tarifa = tarifa;
-        this.p_caja = p_caja;
-        this.v_total_caja = v_total_caja;
-        this.pvp_caja = pvp_caja;
-        this.fecha_vencimiento = fecha_vencimiento;
-    }
-
     @Override
     public String toString() {
         return "ModelDetailPurchase{" +
