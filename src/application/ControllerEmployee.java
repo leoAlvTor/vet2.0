@@ -56,31 +56,31 @@ public class ControllerEmployee {
     private Employee employee;
     private Thread thread1;
     private DBQueries dbQueries;
-    
+
     @FXML
     public void initialize(){
         thread1 = new Thread(this::init);
         thread1.start();
     }
-    
+
     private void init() {
     	dbQueries = new DBQueries();
     	empleadosIDHashMap = new HashMap<>();
     	empleadosNombreIDHashMap = new HashMap<>();
     	obtenerDatosEmpleados();
     	listenerTable();
-    	
+
     }
 
     public void obtenerDatosEmpleados(){
         empleadosIDHashMap = dbQueries.getEmployees();
-        
+
         for(Map.Entry<Integer, Employee> entry : empleadosIDHashMap.entrySet())
         	empleadosNombreIDHashMap.put(entry.getValue().getNombre(), entry.getKey());
-        
+
         lista = new ArrayList<>(empleadosIDHashMap.values());
     }
-    
+
     public void listenerTable() {
     	tblEmpleados.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
     		System.out.println("Se clickea");
@@ -88,22 +88,23 @@ public class ControllerEmployee {
     		setearDatos(employee);
     	});
     }
-    
+
     public void guardarEmpleado() {
     	System.out.println("Guardar empleado");
     	DBInserts dbInserts = new DBInserts();
     	dbInserts.insertEmpleado(txtNombre.getText(), txtTitulo.getText(), txtEmail.getText(), txtTelefono.getText(), txtDireccion.getText());
     }
-    
+
     public void actualizarEmpleado() {
     	System.out.println("Actualizar empleado");
     	DBUpdates dbUpdates = new DBUpdates();
-    	
+
     	if(employee != null) {
-    		dbUpdates.updateEmpleado(employee.getId(), txtNombre.getText(), txtTitulo.getText(), txtEmail.getText(), txtDireccion.getText(), txtDireccion.getText());
+    		dbUpdates.updateEmpleado(employee.getId(), txtNombre.getText(), txtTitulo.getText(), txtEmail.getText(),
+					txtTelefono.getText(), txtDireccion.getText());
     	}
     }
-    
+
     public void borrarEmpleado() {
     	System.out.println("Eliminar Empleado");
     	DBDelete dbDelete = new DBDelete();
@@ -111,38 +112,38 @@ public class ControllerEmployee {
     		dbDelete.deleteEmpleado(employee.getId());
     	}
     }
-    
+
     public void buscarEmpleado() {
     	buscar();
     }
-    
+
     private void buscar() {
     	if(!thread1.isAlive()) {
     		Dialog<String> dialog = new Dialog<>();
     		dialog.setTitle("Buscar Empleado");
     		dialog.setHeaderText("Ingrese el nombre del empleado a buscar");
-    		
+
     		Label lblNombre = new Label("Nombre:");
     		TextField txtNombre = new TextField();
-    		
+
     		GridPane grid = new GridPane();
     		grid.add(lblNombre, 1, 1);
     		grid.add(txtNombre, 1, 2);
     		dialog.getDialogPane().setContent(grid);
-    		
+
     		ButtonType buttonTypeOK = new ButtonType("Cargar Datos", ButtonBar.ButtonData.OK_DONE);
     		dialog.getDialogPane().getButtonTypes().add(buttonTypeOK);
-    		
+
     		dialog.setResultConverter(button ->{
     			if(button == buttonTypeOK) return txtNombre.getText();
     			return null;
     		});
-    		
+
     		Optional<String> resultado = dialog.showAndWait();
     		resultado.ifPresent(this::empleadoResultado);
     	}
     }
-    
+
     private void empleadoResultado(String nombre) {
     	if(empleadosNombreIDHashMap.containsKey(nombre)) {
     		idEmpleado = empleadosNombreIDHashMap.get(nombre);
@@ -150,9 +151,9 @@ public class ControllerEmployee {
     		setearDatos(employee);
     	}else
     		alertaSinResultado(nombre);
-    	
+
     }
-    
+
     private void setearDatos(Employee empleado) {
     	if(empleado != null) {
     	txtNombre.setText(empleado.getNombre());
@@ -162,7 +163,7 @@ public class ControllerEmployee {
 		txtDireccion.setText(empleado.getDireccion());
     	}
     }
-    
+
     private void alertaSinResultado(String nombre) {
     	Alert alert = new Alert(AlertType.INFORMATION);
     	alert.setTitle("Informacion");
@@ -170,7 +171,7 @@ public class ControllerEmployee {
     	alert.setContentText("El usuario: " + nombre + ", no esta registrado.");
     	alert.showAndWait();
     }
-    
+
     public void menuPrincipal() throws IOException {
     	Stage primaryStage = (Stage) btnMain.getScene().getWindow();
     	Parent root = FXMLLoader.load(this.getClass().getResource("MainMenu.fxml"));
@@ -186,9 +187,9 @@ public class ControllerEmployee {
         email.setCellValueFactory(new PropertyValueFactory("email"));
         telefono.setCellValueFactory(new PropertyValueFactory("telefono"));
         direccion.setCellValueFactory(new PropertyValueFactory("direccion"));
-        
+
         ObservableList<Employee> data = FXCollections.observableArrayList(lista);
-        
+
         tblEmpleados.setItems(data);
     }
 

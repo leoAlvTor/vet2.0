@@ -13,7 +13,7 @@ import java.net.URL;
 public class ControllerProductsMenu {
 
     @FXML
-    Button btnInventario, btnCompras, btnProveedor, btnProducto;
+    Button btnInventario, btnCompras, btnProveedor, btnProducto, btnNotas;
 
     @FXML
     public void openInventario() throws Exception{
@@ -34,6 +34,10 @@ public class ControllerProductsMenu {
     @FXML
     public void openProductos() throws Exception{
         getStage(btnProveedor, "Productos", "NewProduct.fxml", 693,620);
+    }
+
+    public void openNotas() throws Exception{
+        getStage(btnNotas, "Notas De Credito", "NotaDeCredito.fxml", 773,690);
     }
 
     @FXML

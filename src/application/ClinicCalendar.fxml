@@ -11,12 +11,12 @@
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <TableView fx:id="tblCalendario" prefHeight="300.0" prefWidth="599.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="ID" />
-                <TableColumn prefWidth="171.0" text="Empleado a Cargo" />
+               <columns>
+                  <TableColumn prefWidth="75.0" text="ID" />
+                  <TableColumn prefWidth="171.0" text="Empleado a Cargo" />
                   <TableColumn prefWidth="177.0" text="Fecha de cita" />
                   <TableColumn prefWidth="175.0" text="Paciente" />
-              </columns>
+               </columns>
             </TableView>
          </children>
       </HBox>
@@ -51,7 +51,11 @@
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="btnMain" mnemonicParsing="false" prefHeight="25.0" prefWidth="171.0" text="Regresar al Menu Principal" />
+            <Button fx:id="btnMain" mnemonicParsing="false" onAction="#menu" prefHeight="25.0" prefWidth="121.0" text="Regresar">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
          </children>
          <BorderPane.margin>
             <Insets />

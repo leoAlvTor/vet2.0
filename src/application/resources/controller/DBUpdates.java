@@ -86,6 +86,10 @@ public class DBUpdates {
     		return e.getMessage();
     	}
     }
+
+    public String notaCabecera(Object ... params){
+
+	}
     
     public String updateFacturaCabecera(Object ...params) {
     	sql = "update factura_cabecera set cliente_ruc = ?, factura_tipo = ?, factura_subtotal = ?,"
@@ -117,7 +121,8 @@ public class DBUpdates {
     	try {
     		connect();
     		statement = connection.createStatement();
-    		sql = "update Empleados set empleado_nombres = ?, empleado_titulo = ?, empleado_email = ?, empleado_telefono = ?, empleado_direccion = ? where empleado_id = ?";
+    		sql = "update Empleados set empleado_nombres = ?, empleado_titulo = ?, empleado_email = ?," +
+					" empleado_telefono = ?, empleado_direccion = ? where empleado_id = ?";
     		preparedStatement = connection.prepareStatement(sql);
     		preparedStatement.setString(1, nombre);
     		preparedStatement.setString(2, titulo);
@@ -245,5 +250,27 @@ public class DBUpdates {
         }
 
     }
+
+	public void updateCustomer(int ci_antiguo, String cliente_nombre, String cliente_telefono,String cliente_direccion, String cliente_email) {
+
+		try {
+			connect();
+			statement = connection.createStatement();
+			sql = "update clientes set cliente_nombre = ?, cliente_telefono = ?, cliente_direccion = ?, cliente_email = ? where cliente_id = ?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, cliente_nombre);
+			preparedStatement.setString(2, cliente_telefono);
+			preparedStatement.setString(3, cliente_direccion);
+			preparedStatement.setString(4, cliente_email);
+			preparedStatement.setInt(5, ci_antiguo);
+			preparedStatement.executeUpdate();
+			disconnect();
+		}catch(SQLException e){
+			e.printStackTrace();
+			disconnect();
+
+		}
+	}
+
 
 }

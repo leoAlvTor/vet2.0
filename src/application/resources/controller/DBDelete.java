@@ -52,6 +52,23 @@ public class DBDelete {
             return 1;
         }
     }
+
+    public int  deleteCustomer(int customer_id) {
+        try {
+            connect();
+            statement = connection.createStatement();
+            sql = "delete from clientes where cliente_id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, customer_id);
+            preparedStatement.executeUpdate();
+            disconnect();
+            return 0;
+        }catch(SQLException e) {
+            e.printStackTrace();
+            disconnect();
+            return 1;
+        }
+    }
     
     public void deleteEmpleado(int empleado_id) {
     	try {

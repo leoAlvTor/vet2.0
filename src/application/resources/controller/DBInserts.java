@@ -75,11 +75,42 @@ public class DBInserts {
     		return e.getMessage();
     	}
     }
+
+    public String insertNotaDetalle(String ... params){
+    	try{
+    		sql = "INSERT INTO nota_detalle SET id = ?, prod_id = ?, autorizacion = ?, cantidad = ?, p_unit = ?," +
+					" v_total = ?, pvp_unit = ?, p_caja = ?, v_total_caja = ?, pvp_caja = ?, tarifa = ?";
+    		preparedStatement = connection.prepareStatement(sql);
+
+    		preparedStatement.setInt(1, Integer.parseInt(params[0]));
+
+    		preparedStatement.setString(2, params[1]);
+    		preparedStatement.setString(3, params[2]);
+
+    		preparedStatement.setInt(4, Integer.parseInt(params[3]));
+
+    		preparedStatement.setDouble(5, Double.parseDouble(params[4]));
+			preparedStatement.setDouble(6, Double.parseDouble(params[5]));
+			preparedStatement.setDouble(7, Double.parseDouble(params[6]));
+			preparedStatement.setDouble(8, Double.parseDouble(params[7]));
+			preparedStatement.setDouble(9, Double.parseDouble(params[8]));
+			preparedStatement.setDouble(10, Double.parseDouble(params[9]));
+
+			preparedStatement.setString(11, params[10]);
+			preparedStatement.executeUpdate();
+			return "";
+		}catch (SQLException e){
+    		disconnect();
+			System.out.println(e.getMessage());
+			return e.getMessage();
+		}
+	}
     
     public String insertCompraDetalle(Object ... params) {
     	try {
     		
-    		sql = "insert into compra_detalle set prod_id = ?, cabecera_id = ?, cantidad = ?, p_unit = ?, v_total = ?, pvp_unit = ?, p_caja = ?, v_total_caja = ?, pvp_caja = ?, tarifa = ?, fecha_vencimiento = ?";
+    		sql = "insert into compra_detalle set prod_id = ?, cabecera_id = ?, cantidad = ?, p_unit = ?, v_total = ?," +
+					" pvp_unit = ?, p_caja = ?, v_total_caja = ?, pvp_caja = ?, tarifa = ?, fecha_vencimiento = ?";
     		preparedStatement = null;
     		preparedStatement = connection.prepareStatement(sql);
     		
@@ -106,11 +137,43 @@ public class DBInserts {
     	}
     	return "";
     }
+
+    public String insertNotaCabecera(String ... params){
+    	try{
+    		sql = "INSERT INTO nota_cabecera SET autorizacion = ?, idFactura = ?, numeroNota = ?, fechaNota = ?, " +
+					"formaPago = ?, proveedorRuc = ?, plazo = ?, abono = ?, subtotal12 = ?, subtotal0 = ?, iva = ?," +
+					" ice = ?, irbp = ?, total = ?";
+    		preparedStatement = connection.prepareStatement(sql);
+
+    		preparedStatement.setString(1, params[0]);
+			preparedStatement.setString(2, params[1]);
+			preparedStatement.setString(3, params[2]);
+			preparedStatement.setString(4, params[3]);
+			preparedStatement.setString(5, params[4]);
+			preparedStatement.setString(6, params[5]);
+			preparedStatement.setString(7, params[6]);
+
+			preparedStatement.setDouble(8, Double.parseDouble(params[7]));
+			preparedStatement.setDouble(9, Double.parseDouble(params[8]));
+			preparedStatement.setDouble(10, Double.parseDouble(params[9]));
+			preparedStatement.setDouble(11, Double.parseDouble(params[10]));
+			preparedStatement.setDouble(12, Double.parseDouble(params[11]));
+			preparedStatement.setDouble(13, Double.parseDouble(params[12]));
+			preparedStatement.setDouble(14, Double.parseDouble(params[13]));
+
+			preparedStatement.executeUpdate();
+			return "";
+		}catch (SQLException e){
+    		disconnect();
+			System.out.println("NOTA CABECERA --> \n" + e.getMessage());
+    		return e.getMessage();
+		}
+	}
     
     public String insertCompraCabecera(Object ... params) {
     	try {
-    		sql = "insert into compra_cabecera set factura_id = ?, autorizacion = ?, fecha = ?, forma_pago = ?, proveedor_id = ?, plazo = ?,"
-    				+ " abono = ?, subtotal12 = ?, subtotal0 = ?, totalIVA = ?, ice = ?, irbp = ?, total = ?";
+    		sql = "insert into compra_cabecera set factura_id = ?, autorizacion = ?, fecha = ?, forma_pago = ?," +
+					" proveedor_id = ?, plazo = ?, abono = ?, subtotal12 = ?, subtotal0 = ?, totalIVA = ?, ice = ?, irbp = ?, total = ?";
     		preparedStatement = null;
     		preparedStatement = connection.prepareStatement(sql);
     		
@@ -225,7 +288,8 @@ public class DBInserts {
     	try {
     		connect();
     		statement = connection.createStatement();
-    		sql = "insert into Empleados set empleado_nombres = ?, empleado_titulo = ?, empleado_email = ?, empleado_telefono = ?, empleado_direccion = ?";
+    		sql = "insert into Empleados set empleado_nombres = ?, empleado_titulo = ?, empleado_email = ?," +
+					" empleado_telefono = ?, empleado_direccion = ?";
     		preparedStatement = connection.prepareStatement(sql);
     		preparedStatement.setString(1, nombre);
     		preparedStatement.setString(2, titulo);
@@ -293,5 +357,37 @@ public class DBInserts {
     	
     	return 0;
     }
+
+	//----------ISRAEL CHUCHUCA ------CODE
+
+	public int insertAppointment( String cit_cedula,String cit_empleado,String cit_tipo,Date cit_fecha,
+								  int cit_importancia, String observaciones){
+		DBInserts dbInserts = new DBInserts();
+		try {
+			connect();
+			System.out.println("conectado");
+			statement = connection.createStatement();
+			sql = "INSERT INTO citas_paciente set  cit_cedula = ?, cit_empleado = ?, cit_tipo = ?,"
+					+ " cit_fecha = ?, cit_importancia = ?, observaciones = ?";
+			preparedStatement = connection.prepareStatement(sql);
+			System.out.println("ejecuto la sentencia");
+
+			preparedStatement.setString(1, cit_cedula);
+			preparedStatement.setString(2, cit_empleado);
+			preparedStatement.setString(3, cit_tipo);
+			preparedStatement.setDate(4, cit_fecha);
+			preparedStatement.setInt(5, cit_importancia);
+			preparedStatement.setString(6, observaciones);
+			preparedStatement.executeUpdate();
+			disconnect();
+			return 0;
+		}catch (SQLException e){
+			disconnect();
+			e.printStackTrace();
+		}
+
+		return 0;
+
+	}
 
 }

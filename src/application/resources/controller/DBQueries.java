@@ -30,6 +30,57 @@ public class DBQueries {
 
     }
 
+	public HashMap<String, Customers> getIdCliente(){
+		HashMap<String, Customers> mapaIdCliente = new HashMap<>();
+		try{
+			connect();
+			sql = "Select * from clientes";
+			preparedStatement = connection.prepareStatement(sql);
+			resultSet = preparedStatement.executeQuery();
+			Customers cliente;
+			while(resultSet.next()){
+				cliente = new Customers();
+				cliente.setCi(resultSet.getString("cliente_id"));
+				cliente.setNombre(resultSet.getString("cliente_nombre"));
+				cliente.setTelefono(resultSet.getString("cliente_telefono"));
+				cliente.setDireccion(resultSet.getString("cliente_direccion"));
+				cliente.setEmail(resultSet.getString("cliente_email"));
+				mapaIdCliente.put(cliente.getCi(), cliente);
+			}
+			disconnect();
+			return mapaIdCliente;
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return mapaIdCliente;
+	}
+
+	public Customers buscarCustomer(String nombre){
+		Customers customer = new Customers();
+		try{
+			connect();
+			statement = connection.createStatement();
+			sql = "select * from clientes where cliente_nombre='"+nombre+"'";
+			resultSet = statement.executeQuery(sql);
+			while(resultSet.next()){
+				String ci=String.valueOf(resultSet.getInt("cliente_id"));
+				customer.setCi(ci);
+				customer.setDireccion(resultSet.getString("cliente_direccion"));
+				customer.setNombre(resultSet.getString("cliente_nombre"));
+				customer.setTelefono(resultSet.getString("cliente_telefono"));
+				customer.setEmail(resultSet.getString("cliente_email"));
+				System.out.println("ci");
+			}
+			disconnect();
+			return customer;
+
+		}catch (Exception e){
+			System.out.println("Error al obtener datos del producto");
+			return null;
+		}
+
+	}
+
     public HashMap<Integer, FacturaCabecera> getMapaFacturaVentaXFecha(String fecha1, String fecha2){
 		HashMap<Integer, FacturaCabecera> mapaFacturaVentaXFecha = new HashMap<>();
 		FacturaCabecera objFac;

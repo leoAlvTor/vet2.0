@@ -38,6 +38,7 @@
                   <Button fx:id="btnProducto" mnemonicParsing="false" onAction="#openProductos" prefHeight="130.0" prefWidth="170.0" text="NUEVO PRODUCTO" />
                </children>
             </HBox>
+            <Button fx:id="btnNotas" mnemonicParsing="false" onAction="#openNotas" prefHeight="25.0" prefWidth="300.0" text="NOTAS DE CREDITO" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
          <StackPane.margin>
             <Insets bottom="10.0" top="10.0" />

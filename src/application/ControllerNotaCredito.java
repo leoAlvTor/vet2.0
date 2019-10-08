@@ -1,12 +1,15 @@
 package application;
+
 import application.resources.controller.DBDelete;
 import application.resources.controller.DBInserts;
 import application.resources.controller.DBQueries;
 import application.resources.controller.DBUpdates;
-import application.resources.model.*;
+import application.resources.model.CabeceraCompra;
+import application.resources.model.ModelDetailPurchase;
+import application.resources.model.Product;
+import application.resources.model.Provider;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,14 +21,18 @@ import org.controlsfx.control.textfield.TextFields;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
-public class ControllerInvoicePurch {
+public class ControllerNotaCredito {
+
     @FXML
     MenuButton menuButton;
     @FXML
-    TextField txtCodigo, txtAutorizacionFAC, txtNumeroFAC, txtRUC, txtNomProveedor, txtCantTiempo, txtPagoInicial, txtSubtotal12, txtSubtotal0,
-    txtIVA, txtICE, txtIRBP, txtTotal;
+    TextField txtCodigo, txtNumCredito, txtAutorizacionFAC, txtNumeroFAC, txtRUC, txtNomProveedor, txtCantTiempo,
+            txtPagoInicial, txtSubtotal12, txtSubtotal0, txtIVA, txtICE, txtIRBP, txtTotal;
     @FXML
     DatePicker dateFecha;
     @FXML
@@ -89,7 +96,7 @@ public class ControllerInvoicePurch {
         forma.add("Credito");
         comboFormaPago.setItems(FXCollections.observableArrayList(forma));
         txtCodigos  = TextFields.bindAutoCompletion(txtCodigo, "");
-        
+
         txtICE.setText("0");
         txtIRBP.setText("0");
     }
@@ -105,7 +112,7 @@ public class ControllerInvoicePurch {
         providerList = dbQueries.getProviders();
         cabeceraCompra = new CabeceraCompra();
         eventoSeleccionTabla();
-        
+
     }
 
     // Carga los productos por su codigo en la factura
@@ -314,7 +321,7 @@ public class ControllerInvoicePurch {
                 if(event.getCode().equals(KeyCode.ENTER)){
                     for (int i = 0; i < ultraHashMap.size(); i++) {
                         if(ultraHashMap.get(i).containsKey(txtCodigo.getText())) {
-                    
+
                             listerTable(ultraHashMap.get(i).get(txtCodigo.getText()));
                         }
                     }
@@ -421,118 +428,121 @@ public class ControllerInvoicePurch {
             if (m.getP_caja() == 0) {
                 subtotal12 += m.getV_total() - (m.getV_total() * 0.12);
                 if(m.getTarifa().equals("0"))
-                	subtotal0 += m.getV_total();
+                    subtotal0 += m.getV_total();
                 totalIVA += m.getV_total() * 0.12;
             } else if(m.getP_caja() != 0){
-            	subtotal12 += m.getV_total_caja()-(m.getV_total_caja() * 0.12);
-            	if(m.getTarifa().equals("0"))
-            		subtotal0 += m.getV_total_caja();
+                subtotal12 += m.getV_total_caja()-(m.getV_total_caja() * 0.12);
+                if(m.getTarifa().equals("0"))
+                    subtotal0 += m.getV_total_caja();
                 totalIVA += m.getV_total_caja() * 0.12;
-                
+
             }
         }
         total += subtotal0 + subtotal12 + totalIVA;
         total += ICE + IRBP;
-        
+
         txtSubtotal0.setText(String.valueOf(subtotal0));
         txtSubtotal12.setText(String.valueOf(subtotal12));
         txtIVA.setText(String.valueOf(totalIVA));
         txtTotal.setText(String.valueOf(total));
     }
-    
-    
+
+
     private void eventoSeleccionTabla() {
-    	
-    	ContextMenu contextMenu = new ContextMenu();
-    	MenuItem itemEditar = new MenuItem("Editar producto");
-    	contextMenu.getItems().add(itemEditar);
-    	tblCompras.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
-    		contextMenu.show(tblCompras, event.getScreenX(), event.getScreenY());
-    	});
-    	
-    	itemEditar.setOnAction(event ->{
-    		ModelDetailPurchase modeloVenta = tblCompras.getSelectionModel().getSelectedItem();
-    		String codigo = tblCompras.getSelectionModel().getSelectedItem().getCodigo();
-    		if(modeloVenta != null) {
-    			modeloVenta = cambios(modeloVenta);
-    			System.out.println(modeloVenta.toString());
-    			for(int i=0; i < invoiceProductList.size(); i++) {
-    				if(invoiceProductList.get(i).getCodigo().equals(codigo)) {
-    					invoiceProductList.set(i, modeloVenta);
-    					break;
-    				}
-    			}
-    			compraObservableList = FXCollections.observableArrayList(invoiceProductList);
-    			
-    			tblCompras.setItems(compraObservableList);
-    			
-    			for(int i = 0; i < tblCompras.getItems().size(); i++) {
-    				tblCompras.getColumns().get(i).setVisible(false);
-    				tblCompras.getColumns().get(i).setVisible(true);
-    			}
-    			
-    		}
-    	});
+
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem itemEditar = new MenuItem("Editar producto");
+        contextMenu.getItems().add(itemEditar);
+        tblCompras.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
+            contextMenu.show(tblCompras, event.getScreenX(), event.getScreenY());
+        });
+
+        itemEditar.setOnAction(event ->{
+            ModelDetailPurchase modeloVenta = tblCompras.getSelectionModel().getSelectedItem();
+            String codigo = tblCompras.getSelectionModel().getSelectedItem().getCodigo();
+            if(modeloVenta != null) {
+                modeloVenta = cambios(modeloVenta);
+                System.out.println(modeloVenta.toString());
+                for(int i=0; i < invoiceProductList.size(); i++) {
+                    if(invoiceProductList.get(i).getCodigo().equals(codigo)) {
+                        invoiceProductList.set(i, modeloVenta);
+                        break;
+                    }
+                }
+                compraObservableList = FXCollections.observableArrayList(invoiceProductList);
+
+                tblCompras.setItems(compraObservableList);
+
+                for(int i = 0; i < tblCompras.getItems().size(); i++) {
+                    tblCompras.getColumns().get(i).setVisible(false);
+                    tblCompras.getColumns().get(i).setVisible(true);
+                }
+
+            }
+        });
     }
-    
+
     private ModelDetailPurchase cambios(ModelDetailPurchase value) {
-    	ModelDetailPurchase modelo = value;
-    	modelo.setCantidad(Integer.parseInt(input("Cantidad: ", value.getCantidad())));
-    	modelo.setFecha_vencimiento(inputFecha(value.getFecha_vencimiento()));
-    	if(modelo.getP_caja() == 0) {
-    		modelo.setP_unit(Double.parseDouble(input("Precio Unitario: ", value.getP_unit())));
-    		modelo.setV_total(modelo.getCantidad()*modelo.getP_unit());
-    	}else {
-    		modelo.setP_caja(Double.parseDouble(input("Precio Caja: ", value.getP_caja())));
-    		modelo.setV_total_caja(modelo.getCantidad()*modelo.getP_caja());
-    	}
-    	return modelo;
+        ModelDetailPurchase modelo = value;
+        modelo.setCantidad(Integer.parseInt(input("Cantidad: ", value.getCantidad())));
+        modelo.setFecha_vencimiento(inputFecha(value.getFecha_vencimiento()));
+        if(modelo.getP_caja() == 0) {
+            modelo.setP_unit(Double.parseDouble(input("Precio Unitario: ", value.getP_unit())));
+            modelo.setV_total(modelo.getCantidad()*modelo.getP_unit());
+        }else {
+            modelo.setP_caja(Double.parseDouble(input("Precio Caja: ", value.getP_caja())));
+            modelo.setV_total_caja(modelo.getCantidad()*modelo.getP_caja());
+        }
+        return modelo;
     }
-    
+
     private String input(String paramTxt, Object antiguo) {
-    	TextInputDialog dialog = new TextInputDialog(String.valueOf(antiguo));
-    	dialog.setTitle("Cambiar valores");
-    	dialog.setHeaderText("Ingrese el nuevo valor");
-    	dialog.setContentText(paramTxt);
-    	Optional<String> resultado = dialog.showAndWait();
-    	if(resultado.isPresent())
-    		return resultado.get();
-    	return null;
+        TextInputDialog dialog = new TextInputDialog(String.valueOf(antiguo));
+        dialog.setTitle("Cambiar valores");
+        dialog.setHeaderText("Ingrese el nuevo valor");
+        dialog.setContentText(paramTxt);
+        Optional<String> resultado = dialog.showAndWait();
+        if(resultado.isPresent())
+            return resultado.get();
+        return null;
     }
-    
-    
-    
+
+
+
     private String inputFecha(Object antiguo) {
-    	TextInputDialog dialog = new TextInputDialog(String.valueOf(antiguo));
-    	dialog.setTitle("Cambiar valores");
-    	dialog.setHeaderText("Ingrese el nuevo valor");
-    	dialog.setContentText("Fecha compra: ");
-    	Optional<String> resultado = dialog.showAndWait();
-    	if(resultado.isPresent())
-    		return resultado.get();
-    	return null;
+        TextInputDialog dialog = new TextInputDialog(String.valueOf(antiguo));
+        dialog.setTitle("Cambiar valores");
+        dialog.setHeaderText("Ingrese el nuevo valor");
+        dialog.setContentText("Fecha compra: ");
+        Optional<String> resultado = dialog.showAndWait();
+        if(resultado.isPresent())
+            return resultado.get();
+        return null;
     }
-    
-    public void guardarCompra() 
+
+    public void guardarCompra()
     {
-    	DBInserts dbInserts = new DBInserts();
-    	dbInserts.connect();
-    	
-    	dbInserts.insertCompraCabecera(txtNumeroFAC.getText(), txtAutorizacionFAC.getText(), dateFecha.getValue(),
-    			comboFormaPago.getValue(), txtRUC.getText(), txtCantTiempo.getText(), txtPagoInicial.getText(),
-    			txtSubtotal12.getText(), txtSubtotal0.getText(), txtIVA.getText(), txtICE.getText(), txtIRBP.getText(), txtTotal.getText());
-    	dbInserts.disconnect();
-    	guardarDetalle(dbInserts);
+        DBInserts dbInserts = new DBInserts();
+        dbInserts.connect();
+        dbInserts.insertNotaCabecera(txtAutorizacionFAC.getText(), txtNumeroFAC.getText(), txtNumeroFAC.getText(),
+                getFecha(dateFecha.getValue()), comboFormaPago.getSelectionModel().getSelectedItem(),
+                txtRUC.getText(), txtCantTiempo.getText(), txtPagoInicial.getText(), txtSubtotal12.getText(),
+                txtSubtotal0.getText(), txtIVA.getText(), txtICE.getText(), txtIRBP.getText(), txtTotal.getText());
+
+        guardarNotaDetalle(dbInserts);
     }
-    
-    private void guardarDetalle(DBInserts param) {
-    	param.connect();
-    	for(ModelDetailPurchase m : tblCompras.getItems())
-    		param.insertCompraDetalle(m.getCodigo(), txtAutorizacionFAC.getText(), m.getCantidad(), m.getP_unit(), m.getV_total(),
-    				m.getPvp_unit(), m.getP_caja(), m.getV_total_caja(), m.getPvp_caja(), m.getTarifa(), m.getFecha_vencimiento());
-    	param.disconnect();
+
+    private void guardarNotaDetalle(DBInserts param){
+        for(ModelDetailPurchase m : tblCompras.getItems())
+            param.insertNotaDetalle(m.getCodigo(), m.getCodigo(), txtAutorizacionFAC.getText(),
+                    String.valueOf(m.getCantidad()), String.valueOf(m.getP_unit()), String.valueOf(m.getV_total()),
+                    String.valueOf(m.getPvp_unit()), String.valueOf(m.getP_caja()), String.valueOf(m.getV_total_caja()),
+                    String.valueOf(m.getPvp_caja()), m.getTarifa());
+        param.disconnect();
     }
-    
+
+
+
     public void actualizarCompra() {
         System.out.println("Actualizar Compra");
         DBUpdates dbUpdates = new DBUpdates();
@@ -559,11 +569,10 @@ public class ControllerInvoicePurch {
         else
             return dateTimeFormatter.format(localDate);
     }
-    
+
     public void eliminarCompra() {
         if(alertaEliminar())
             eliminar();
-
     }
 
     private void eliminar(){
@@ -575,7 +584,7 @@ public class ControllerInvoicePurch {
             int a = dbDelete.deleteFacturaCompra(cabeceraCompra.getCompra_numero());
             dbDelete.disconnect();
             if(a==1)
-               alertaEliminado(cabeceraCompra.getCompra_autorizacion());
+                alertaEliminado(cabeceraCompra.getCompra_autorizacion());
         }
     }
 
@@ -628,7 +637,7 @@ public class ControllerInvoicePurch {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(param1.getCompra_fecha(), formatter);
 
-       dateFecha.setValue(localDate);
+        dateFecha.setValue(localDate);
 
         comboFormaPago.getSelectionModel().select(param1.getCompra_for_pago());
 
@@ -648,5 +657,9 @@ public class ControllerInvoicePurch {
 
         loadCompra(param2);
     }
-    
+
+    public void actualizarNota(){
+
+    }
+
 }

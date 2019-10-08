@@ -196,8 +196,7 @@ public class ControllerProvider {
     public void mainMenu() throws Exception{
         Stage stage = (Stage) btnActualizar.getScene().getWindow();
         stage.setTitle("Menu Principal");
-        URL url = new File("MainMenu.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
+        Parent root = FXMLLoader.load(this.getClass().getResource("MainMenu.fxml"));
         stage.setScene(new Scene(root, 650, 490));
         stage.centerOnScreen();
         stage.setResizable(false);

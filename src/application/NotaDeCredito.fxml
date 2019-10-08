@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="998.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerNotaCredito">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <HBox prefHeight="36.0" prefWidth="773.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <MenuButton fx:id="menuButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="173.0" text="Metodo de Busqueda">
+                                 <items>
+                                    <MenuItem fx:id="opCodigoFactura" mnemonicParsing="false" onAction="#cargarCodigoFactura" text="Buscar por Codigo Factura" />
+                                    <MenuItem fx:id="opCodigoProducto" mnemonicParsing="false" onAction="#cargarCodigoProducto" text="Buscar por Codigo Producto" />
+                                    <MenuItem fx:id="opNombreFactura" mnemonicParsing="false" onAction="#cargarNombreFactura" text="Buscar por Nombre Factura" />
+                                    <MenuItem fx:id="opNombreProducto" mnemonicParsing="false" onAction="#cargarNombreProducto" text="Buscar por Nombre Producto" />
+                                    <MenuItem fx:id="opProductosProveedor" mnemonicParsing="false" onAction="#cargaPorProveedor" text="Listar productos del Proveedor" />
+                                 </items>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </MenuButton>
+                              <Label fx:id="lblCodigo" text="Codigo del producto:">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="txtCodigo" prefHeight="25.0" prefWidth="199.0" />
+                           </children>
+                        </HBox>
+                     </top>
+                     <StackPane.margin>
+                        <Insets left="5.0" right="5.0" top="5.0" />
+                     </StackPane.margin>
+                     <center>
+                        <TableView fx:id="tblBusqueda" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                          <columns>
+                            <TableColumn fx:id="colCodigoFactura" prefWidth="106.0" text="Codigo Factura" />
+                            <TableColumn fx:id="colCodigoProducto" prefWidth="151.0" text="Codigo Producto" />
+                              <TableColumn fx:id="colNombreProducto" prefWidth="194.0" text="Nombre Producto" />
+                              <TableColumn fx:id="colNombreFactura" prefWidth="123.0" text="Nombre Factura" />
+                              <TableColumn fx:id="colPrecioUnitario" prefWidth="96.0" text="Precio Unitario" />
+                              <TableColumn fx:id="colPrecioCaja" prefWidth="96.0" text="Precio Caja" />
+                          </columns>
+                           <BorderPane.margin>
+                              <Insets />
+                           </BorderPane.margin>
+                        </TableView>
+                     </center>
+                  </BorderPane>
+               </children>
+            </StackPane>
+         </top>
+         <center>
+            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <TableView fx:id="tblCompras" prefHeight="229.0" prefWidth="998.0" BorderPane.alignment="CENTER">
+                          <columns>
+                            <TableColumn fx:id="c1" prefWidth="81.0" text="Codigo" />
+                            <TableColumn fx:id="c2" prefWidth="87.0" text="Descripcion" />
+                              <TableColumn fx:id="c3" prefWidth="77.0" text="Cantidad" />
+                              <TableColumn fx:id="c4" prefWidth="107.0" text="P. Unit." />
+                              <TableColumn fx:id="c5" prefWidth="89.0" text="V. Total" />
+                              <TableColumn fx:id="c6" prefWidth="75.0" text="PVP Unit." />
+                              <TableColumn fx:id="c7" prefWidth="55.0" text="Tarifa" />
+                              <TableColumn fx:id="c8" prefWidth="111.0" text="P. Caja" />
+                              <TableColumn fx:id="c9" prefWidth="75.0" text="V. Total Caja" />
+                              <TableColumn fx:id="c10" prefWidth="114.0" text="PVP Caja" />
+                              <TableColumn fx:id="c11" prefWidth="125.0" text="Fecha Vencimiento" />
+                          </columns>
+                           <BorderPane.margin>
+                              <Insets top="5.0" />
+                           </BorderPane.margin>
+                        </TableView>
+                     </center>
+                     <top>
+                        <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <HBox prefHeight="133.0" prefWidth="763.0">
+                                 <children>
+                                    <GridPane prefHeight="181.0" prefWidth="476.0">
+                                       <children>
+                                          <Label text="FACT. NUMERO:" GridPane.rowIndex="1" />
+                                          <Label text="FECHA DE FACTURA:" GridPane.rowIndex="3" />
+                                          <Label text="FORMA DE PAGO:" GridPane.rowIndex="4" />
+                                          <DatePicker fx:id="dateFecha" prefHeight="25.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <TextField fx:id="txtNumeroFAC" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <ComboBox fx:id="comboFormaPago" prefHeight="25.0" prefWidth="225.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <Label text="# DE AUTORIZACION:" />
+                                          <TextField fx:id="txtAutorizacionFAC" GridPane.columnIndex="1" />
+                                          <TextField fx:id="txtNumCredito" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label text="# NOTA DE CREDITO:" GridPane.rowIndex="2" />
+                                       </children>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="239.0" minWidth="10.0" prefWidth="204.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="263.0" minWidth="10.0" prefWidth="262.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </GridPane>
+                                    <GridPane prefHeight="150.0" prefWidth="512.0">
+                                       <children>
+                                          <Label text="R.U.C. PROVEEDOR:" />
+                                          <Label text="PLAZO [DIAS]:" GridPane.rowIndex="2" />
+                                          <TextField fx:id="txtCantTiempo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label text="ABONO:" GridPane.rowIndex="3" />
+                                          <TextField fx:id="txtPagoInicial" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Button fx:id="btnBuscarProveedor" mnemonicParsing="false" onAction="#cargaProveedores" prefHeight="25.0" prefWidth="220.0" text="BUSCAR" GridPane.columnIndex="1" />
+                                          <TextField fx:id="txtRUC" editable="false" promptText="RUC Proveedor" GridPane.rowIndex="1" />
+                                          <TextField fx:id="txtNomProveedor" editable="false" promptText="Nombre Proveedor" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="10.0" />
+                                             </GridPane.margin>
+                                          </TextField>
+                                       </children>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="226.0" minWidth="10.0" prefWidth="226.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="144.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                    </GridPane>
+                                 </children>
+                                 <StackPane.margin>
+                                    <Insets left="5.0" />
+                                 </StackPane.margin>
+                              </HBox>
+                           </children>
+                        </StackPane>
+                     </top>
+                  </BorderPane>
+               </children>
+            </StackPane>
+         </center>
+         <bottom>
+            <StackPane prefHeight="114.0" prefWidth="773.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <StackPane prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="SUBTOTAL 12%">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="SUBTOTAL 0%" GridPane.columnIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="TOTAL IVA" GridPane.columnIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="ICE" GridPane.columnIndex="3">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="I.R.B.P." GridPane.columnIndex="4">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="VALOR TOTAL" GridPane.columnIndex="5">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField fx:id="txtSubtotal12" editable="false" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="3.0" right="3.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <TextField fx:id="txtSubtotal0" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="3.0" right="3.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <TextField fx:id="txtIVA" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="3.0" right="3.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <TextField fx:id="txtICE" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="3.0" right="3.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <TextField fx:id="txtIRBP" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="3.0" right="3.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <TextField fx:id="txtTotal" editable="false" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                           <padding>
+                              <Insets left="5.0" right="5.0" />
+                           </padding>
+                        </StackPane>
+                        <StackPane prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="btnCalcular" mnemonicParsing="false" onAction="#calculoFinal" text="CALCULAR CAMPOS">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarCompra" text="Guardar Nota de Credito">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="btnActualizar" mnemonicParsing="false" onAction="#actualizarCompra" text="Guardar Promocion">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#actualizarNota" text="Actualizar Nota">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin></Button>
+                                    <Button fx:id="btnEliminar1" mnemonicParsing="false" onAction="#eliminarCompra" text="Eliminar Nota" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+         </bottom>
+      </BorderPane>
+   </children>
+</StackPane>

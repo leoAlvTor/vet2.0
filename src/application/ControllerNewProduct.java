@@ -10,8 +10,13 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -281,8 +286,14 @@ public class ControllerNewProduct {
         radioIVA12.setSelected(false);
     }
 
-    public void salir(){
-
+    public void salir() throws IOException {
+        Stage stage = (Stage) txtPrecioCajaImp.getScene().getWindow();
+        stage.setTitle("Menu Principal");
+        Parent root = FXMLLoader.load(this.getClass().getResource("MainMenu.fxml"));
+        stage.setScene(new Scene(root, 650, 490));
+        stage.centerOnScreen();
+        stage.setResizable(false);
+        stage.show();
     }
 
     public void alertDuplicate(){
