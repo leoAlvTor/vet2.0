@@ -1,67 +1,20 @@
-#btnPacientesCSS {
-    -fx-background-image: url('Images/footPrint.png');
-    -fx-background-size: 40px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center top;
+#stack{
+	-fx-background-image: url("images/image.jpeg");
 }
 
-#btnCalendarioCSS {
-    -fx-background-image: url('Images/calendar.png');
-    -fx-background-size: 40px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center top;
-}
-#btnCitasCSS {
-    -fx-background-image: url('Images/appointment.png');
-    -fx-background-size: 40px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center top;
+#ventas{
+	-fx-background-image: url("images/money.jpg");
+	-fx-background-repeat: stretch;
+	-fx-background-size: 900 506;
+	-fx-background-position: center center;
+	-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
 }
 
-#btnVentasCSS {
-    -fx-background-image: url('Images/invoice.png');
-    -fx-background-size: 40px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center top;
+#invoiceCSS{
+	-fx-background-image: url("images/wood.jpg");
 }
 
-#btnEmpleadosCSS {
-    -fx-background-image: url('Images/employees.png');
-    -fx-background-size: 40px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center top;
-}
-
-#btnClientesCSS {
-    -fx-background-image: url('Images/client.png');
-    -fx-background-size: 40px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center top;
-}
-#btnInventarioCSS {
-    -fx-background-image: url('Images/inventory.png');
-    -fx-background-size: 40px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center top;
-}
-
-#btnReportesCSS {
-    -fx-background-image: url('Images/sales.png');
-    -fx-background-size: 40px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center top;
-}
-
-#btnFacturaCSS {
-    -fx-background-image: url('Images/invoice.png');
-    -fx-background-size: 100px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-#btnCompraCSS {
-    -fx-background-image: url('Images/payment.png');
-    -fx-background-size: 100px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
+#patientCSS{
+	-fx-background-image: url("images/blue.jpg");
+	-fx-background-repeat: stretch;
 }

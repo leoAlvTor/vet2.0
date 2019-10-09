@@ -87,8 +87,38 @@ public class DBUpdates {
     	}
     }
 
-    public String notaCabecera(Object ... params){
+    public String updateNotaCabecera(String ... params){
+		sql = "update nota_cabecera SET idFactura = ?, numeroNota = ?, fechaNota = ?, " +
+				"formaPago = ?, proveedorRuc = ?, plazo = ?, abono = ?, subtotal12 = ?, subtotal0 = ?, iva = ?," +
+				" ice = ?, irbp = ?, total = ? where autorizacion = ?";
+		try{
+			connect();
+			preparedStatement = connection.prepareStatement(sql);
 
+			preparedStatement.setString(1, params[0]);
+			preparedStatement.setString(2, params[1]);
+			preparedStatement.setString(3, params[2]);
+			preparedStatement.setString(4, params[3]);
+			preparedStatement.setString(5, params[4]);
+			preparedStatement.setString(6, params[5]);
+
+			preparedStatement.setDouble(7, Double.parseDouble(params[6]));
+			preparedStatement.setDouble(8, Double.parseDouble(params[7]));
+			preparedStatement.setDouble(9, Double.parseDouble(params[8]));
+			preparedStatement.setDouble(10, Double.parseDouble(params[9]));
+			preparedStatement.setDouble(11, Double.parseDouble(params[10]));
+			preparedStatement.setDouble(12, Double.parseDouble(params[11]));
+			preparedStatement.setDouble(13, Double.parseDouble(params[12]));
+
+			preparedStatement.setString(14, params[13]);
+			preparedStatement.executeUpdate();
+			disconnect();
+			return "";
+		}catch (SQLException e){
+			disconnect();
+			System.out.println(e.getMessage());
+			return e.getMessage();
+		}
 	}
     
     public String updateFacturaCabecera(Object ...params) {

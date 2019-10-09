@@ -21,10 +21,7 @@ import org.controlsfx.control.textfield.TextFields;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ControllerNotaCredito {
 
@@ -106,8 +103,17 @@ public class ControllerNotaCredito {
      *  - Proveedores
      *  - Productos
      */
+    private HashMap<String, String> mapaAutorizacionID;
+
     private void loadData(){
+        mapaAutorizacionID = new HashMap<>();
         dbQueries = new DBQueries();
+
+        mapaAutorizacionID = dbQueries.mapaAutorizacionIDFacturaNota();
+
+        for(Map.Entry<String, String> e : mapaAutorizacionID.entrySet())
+            System.out.println("Key : " + e.getKey() + " __ Value: " + e.getValue());
+
         productList = dbQueries.getProducts();
         providerList = dbQueries.getProviders();
         cabeceraCompra = new CabeceraCompra();
@@ -449,30 +455,25 @@ public class ControllerNotaCredito {
 
 
     private void eventoSeleccionTabla() {
-
         ContextMenu contextMenu = new ContextMenu();
         MenuItem itemEditar = new MenuItem("Editar producto");
         contextMenu.getItems().add(itemEditar);
         tblCompras.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
             contextMenu.show(tblCompras, event.getScreenX(), event.getScreenY());
         });
-
         itemEditar.setOnAction(event ->{
             ModelDetailPurchase modeloVenta = tblCompras.getSelectionModel().getSelectedItem();
             String codigo = tblCompras.getSelectionModel().getSelectedItem().getCodigo();
             if(modeloVenta != null) {
                 modeloVenta = cambios(modeloVenta);
-                System.out.println(modeloVenta.toString());
                 for(int i=0; i < invoiceProductList.size(); i++) {
                     if(invoiceProductList.get(i).getCodigo().equals(codigo)) {
-                        invoiceProductList.set(i, modeloVenta);
-                        break;
+                        invoiceProductList.remove(i);
+                        invoiceProductList.add(modeloVenta);
                     }
                 }
                 compraObservableList = FXCollections.observableArrayList(invoiceProductList);
-
                 tblCompras.setItems(compraObservableList);
-
                 for(int i = 0; i < tblCompras.getItems().size(); i++) {
                     tblCompras.getColumns().get(i).setVisible(false);
                     tblCompras.getColumns().get(i).setVisible(true);
@@ -520,16 +521,26 @@ public class ControllerNotaCredito {
         return null;
     }
 
-    public void guardarCompra()
-    {
-        DBInserts dbInserts = new DBInserts();
-        dbInserts.connect();
-        dbInserts.insertNotaCabecera(txtAutorizacionFAC.getText(), txtNumeroFAC.getText(), txtNumeroFAC.getText(),
-                getFecha(dateFecha.getValue()), comboFormaPago.getSelectionModel().getSelectedItem(),
-                txtRUC.getText(), txtCantTiempo.getText(), txtPagoInicial.getText(), txtSubtotal12.getText(),
-                txtSubtotal0.getText(), txtIVA.getText(), txtICE.getText(), txtIRBP.getText(), txtTotal.getText());
+    public void guardarCompra() {
+        String value = mapaAutorizacionID.get(txtNumeroFAC.getText());
+        if(value != null){
+            DBInserts dbInserts = new DBInserts();
+            dbInserts.connect();
+            dbInserts.insertNotaCabecera(txtAutorizacionFAC.getText(), txtNumeroFAC.getText(), txtNumeroFAC.getText(),
+                    getFecha(dateFecha.getValue()), comboFormaPago.getSelectionModel().getSelectedItem(),
+                    txtRUC.getText(), txtCantTiempo.getText(), txtPagoInicial.getText(), txtSubtotal12.getText(),
+                    txtSubtotal0.getText(), txtIVA.getText(), txtICE.getText(), txtIRBP.getText(), txtTotal.getText());
+            guardarNotaDetalle(dbInserts);
+        }else
+            alertaNumFactura(txtNumeroFAC.getText());
+    }
 
-        guardarNotaDetalle(dbInserts);
+    private void alertaNumFactura(String param){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Numero de Factura");
+        alert.setHeaderText("El numero de factura ingresado no existe dentro de las facturas de compra.");
+        alert.setContentText("El numero de factura  ||" + param + "|| no existe, por favor ingrese un \n valor valido para la nota de credito.");
+        alert.showAndWait();
     }
 
     private void guardarNotaDetalle(DBInserts param){
@@ -541,17 +552,23 @@ public class ControllerNotaCredito {
         param.disconnect();
     }
 
-
-
     public void actualizarCompra() {
         System.out.println("Actualizar Compra");
-        DBUpdates dbUpdates = new DBUpdates();
-        String value = dbUpdates.updateCompraCabecera(txtNumeroFAC.getText(), getFecha(dateFecha.getValue()),
-                comboFormaPago.getSelectionModel().getSelectedItem(), providerHashMap.get(txtNomProveedor.getText()).
-                        getRuc(), txtCantTiempo.getText(), txtPagoInicial.getText());
 
-        if(!value.equals(""))
-            alertaActualizacion(value);
+        DBUpdates dbUpdates = new DBUpdates();
+
+        String auto = mapaAutorizacionID.get(txtNumeroFAC.getText());
+        String value;
+        if(auto != null) {
+            value = dbUpdates.updateNotaCabecera(txtNumeroFAC.getText(), txtNumeroFAC.getText(),
+                    getFecha(dateFecha.getValue()), comboFormaPago.getSelectionModel().getSelectedItem(),
+                    txtRUC.getText(), txtCantTiempo.getText(), txtPagoInicial.getText(), txtSubtotal12.getText(),
+                    txtSubtotal0.getText(), txtIVA.getText(), txtICE.getText(), txtIRBP.getText(), txtTotal.getText(),
+                    txtAutorizacionFAC.getText());
+            if(!value.equals(""))
+                alertaActualizacion(value);
+        }else
+            alertaNumFactura(txtNumeroFAC.getText());
     }
 
     private void alertaActualizacion(String value){
@@ -559,6 +576,7 @@ public class ControllerNotaCredito {
         alert.setTitle("Error al actualizar");
         alert.setTitle("Ha ocurrido un error al momento de actualizar el registro.");
         alert.setContentText("ERROR -->"+value);
+        alert.showAndWait();
     }
 
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");

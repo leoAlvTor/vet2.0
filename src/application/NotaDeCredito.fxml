@@ -255,12 +255,12 @@
                                           <Insets right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="btnActualizar" mnemonicParsing="false" onAction="#actualizarCompra" text="Guardar Promocion">
+                                    <Button fx:id="btnActualizar" mnemonicParsing="false" onAction="#actualizarCompra" text="Actualizar Nota">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#actualizarNota" text="Actualizar Nota">
+                                    <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#actualizarNota" text="Guardar Promocion">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin></Button>

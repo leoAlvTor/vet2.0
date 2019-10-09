@@ -442,7 +442,6 @@ public class ControllerInvoicePurch {
     
     
     private void eventoSeleccionTabla() {
-    	
     	ContextMenu contextMenu = new ContextMenu();
     	MenuItem itemEditar = new MenuItem("Editar producto");
     	contextMenu.getItems().add(itemEditar);
@@ -455,17 +454,14 @@ public class ControllerInvoicePurch {
     		String codigo = tblCompras.getSelectionModel().getSelectedItem().getCodigo();
     		if(modeloVenta != null) {
     			modeloVenta = cambios(modeloVenta);
-    			System.out.println(modeloVenta.toString());
     			for(int i=0; i < invoiceProductList.size(); i++) {
     				if(invoiceProductList.get(i).getCodigo().equals(codigo)) {
-    					invoiceProductList.set(i, modeloVenta);
-    					break;
+    					invoiceProductList.remove(i);
+    					invoiceProductList.add(modeloVenta);
     				}
     			}
     			compraObservableList = FXCollections.observableArrayList(invoiceProductList);
-    			
     			tblCompras.setItems(compraObservableList);
-    			
     			for(int i = 0; i < tblCompras.getItems().size(); i++) {
     				tblCompras.getColumns().get(i).setVisible(false);
     				tblCompras.getColumns().get(i).setVisible(true);

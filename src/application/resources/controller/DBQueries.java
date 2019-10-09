@@ -30,6 +30,25 @@ public class DBQueries {
 
     }
 
+    public HashMap<String, String> mapaAutorizacionIDFacturaNota(){
+    	HashMap<String, String> mapa = new HashMap<>();
+    	try{
+    		connect();
+    		sql = "SELECT autorizacion, factura_id from compra_cabecera";
+    		preparedStatement = connection.prepareStatement(sql);
+    		resultSet = preparedStatement.executeQuery();
+
+    		while(resultSet.next())
+    			mapa.put(resultSet.getString("factura_id"), resultSet.getString("factura_id"));
+    		disconnect();
+    		return mapa;
+		}catch (SQLException e){
+    		disconnect();
+    		e.getMessage();
+    		return mapa;
+		}
+	}
+
 	public HashMap<String, Customers> getIdCliente(){
 		HashMap<String, Customers> mapaIdCliente = new HashMap<>();
 		try{
