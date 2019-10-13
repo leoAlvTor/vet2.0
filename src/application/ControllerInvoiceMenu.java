@@ -14,7 +14,7 @@ import java.net.URL;
 public class ControllerInvoiceMenu {
 
     @FXML
-    Button btnFacturacion, btnMenuProd, btnDeudas, btnMetricas;
+    Button btnFacturacion, btnMenuProd, btnDeudas, btnMetricas, btnNotas;
     
     Stage stage;
 
@@ -45,18 +45,27 @@ public class ControllerInvoiceMenu {
 
     public void abrirMetricas(){
         try {
-            getStage(btnFacturacion, "REPORTES Y METRICAS", "Metrics.fxml", 960, 800);
+            getStage(btnFacturacion, "REPORTES Y METRICAS", "Metrics.fxml", 800, 600);
         } catch (IOException e) {
             System.out.println("Error al abrir el modulo METRICAS");
         }
     }
 
+    public void abrirNota(){
+        try{
+            getStage(btnNotas, "Nota De Venta", "NotaVenta.fxml", 960,800);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     @FXML
     private void getStage( Button btn, String tittle, String file_name, double width, double height) throws java.io.IOException {
-    	stage = (Stage) btn.getScene().getWindow();
+        Stage stage = (Stage) btn.getScene().getWindow();
         stage.setTitle(tittle);
         File file = new File(file_name);
-        Parent root = FXMLLoader.load(this.getClass().getResource(file.getPath()));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(file.getPath()));
+        Parent root = fxmlLoader.load();
         stage.setScene(new Scene(root, width, height));
         stage.centerOnScreen();
         stage.setResizable(false);

@@ -66,7 +66,8 @@ public class ControllerMainMenu {
         Stage stage = (Stage) btn.getScene().getWindow();
         stage.setTitle(tittle);
         File file = new File(file_name);
-        Parent root = FXMLLoader.load(this.getClass().getResource(file.getPath()));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(file.getPath()));
+        Parent root = fxmlLoader.load();
         stage.setScene(new Scene(root, width, height));
         stage.centerOnScreen();
         stage.setResizable(false);

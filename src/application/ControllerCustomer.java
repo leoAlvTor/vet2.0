@@ -5,7 +5,6 @@ import application.resources.controller.DBInserts;
 import application.resources.controller.DBQueries;
 import application.resources.controller.DBUpdates;
 import application.resources.model.Customers;
-import application.resources.model.Employee;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +21,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
 
 
 public class ControllerCustomer {
@@ -57,6 +55,7 @@ public class ControllerCustomer {
 		mapaIdCliente = new HashMap<>();
 		mapaIdCliente = dbQueries.getIdCliente();
 		listaClientes = new ArrayList<>(mapaIdCliente.values());
+		listenerTable();
 
 	}
 
@@ -86,20 +85,6 @@ public class ControllerCustomer {
 		}else
 			return false;
 
-	}
-
-	private void listenerTabla(){
-		tblClientes.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
-			customer = tblClientes.getSelectionModel().getSelectedItem();
-		});
-	}
-
-	private void cargarTabla(){
-		txtCedula.setText(customer.getCi());
-		txtDireccion.setText(customer.getDireccion());
-		txtEmail.setText(customer.getEmail());
-		txtNombre.setText(customer.getNombre());
-		txtTelefono.setText(customer.getTelefono());
 	}
 
 	private void insertar() {
@@ -146,7 +131,7 @@ public class ControllerCustomer {
 	public void listenerTable() {
 		tblClientes.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
 			System.out.println("Se clickea");
-//    		customer = tblClientes.getSelectionModel().getSelectedItem();
+    		customer = tblClientes.getSelectionModel().getSelectedItem();
 			setearDatos(customer);
 		});
 	}

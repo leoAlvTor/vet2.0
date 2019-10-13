@@ -359,13 +359,31 @@ public class DBQueries {
     	}
     	return mapaIDFactura;
     }
+
+    public String getNotaActual(){
+    	String notaActual = "";
+    	try{
+    		connect();
+    		sql = "SELECT `AUTO_INCREMENT` as incremento FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = " +
+					"'mundoganadero' AND TABLE_NAME = 'nota_c'";
+    		statement = connection.createStatement();
+    		resultSet = statement.executeQuery(sql);
+    		while(resultSet.next())
+    			notaActual = String.valueOf(resultSet.getInt("incremento"));
+    		resultSet.close();
+    		disconnect();
+    		return notaActual;
+		}catch (SQLException e){
+			System.out.println(e.getMessage());
+    		return e.getMessage();
+		}
+	}
     
     public String getFacturaActual() {
     	String factActual = "";
     	try {
     		connect();
-    		sql = "SELECT `AUTO_INCREMENT` as incremento FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'mundoganadero' "
-    				+ "AND TABLE_NAME   = 'factura_cabecera'";
+    		sql = "SELECT `AUTO_INCREMENT` as incremento FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'mundoganadero' AND TABLE_NAME   = 'nota_c'";
     		statement = connection.createStatement();
     		resultSet = statement.executeQuery(sql);
     		while(resultSet.next())
@@ -456,12 +474,12 @@ public class DBQueries {
     	HashMap<String, String> mapaClientesCN = new HashMap<>();
     	try {
     		connect();
-    		sql = "SELECT cliente_CI , cliente_Nombre FROM"
+    		sql = "SELECT cliente_id , cliente_Nombre FROM"
     				+ " Clientes";
     		statement = connection.createStatement();
     		resultSet = statement.executeQuery(sql);
     		while(resultSet.next()) {
-    			String ci = resultSet.getString("cliente_CI");
+    			String ci = resultSet.getString("cliente_id");
     			String nombre = resultSet.getString("cliente_Nombre");
     			mapaClientesCN.put(nombre, ci);
     		}

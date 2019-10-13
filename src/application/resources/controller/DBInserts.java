@@ -24,12 +24,34 @@ public class DBInserts {
 
     }
     
+	public String insertNota(Object ... params){
+		try {
+			sql = "insert into nota_c set cliente_ruc = ?, factura_tipo = ?, factura_fecha = ?, factura_subtotal = ?, "
+					+ " factura_iva = ?, factura_descuento = ?, factura_total = ?, factura_empleado = ?";
 
+			preparedStatement = connection.prepareStatement(sql);
+
+			preparedStatement.setString(1, String.valueOf(params[0]));
+			preparedStatement.setString(2, String.valueOf(params[1]));
+			preparedStatement.setString(3, String.valueOf(params[2]));
+
+			preparedStatement.setDouble(4, Double.parseDouble(String.valueOf(params[3])));
+			preparedStatement.setDouble(5, Double.parseDouble(String.valueOf(params[4])));
+			preparedStatement.setDouble(6, Double.parseDouble(String.valueOf(params[5])));
+			preparedStatement.setDouble(7, Double.parseDouble(String.valueOf(params[6])));
+
+			preparedStatement.setString(8, String.valueOf(params[7]));
+			preparedStatement.executeUpdate();
+			return "";
+		}catch(SQLException e) {
+			return e.getMessage();
+		}
+	}
     
     public String insertFacturaCabecera(Object ...params) {
     	try {
     		sql = "insert into factura_cabecera set cliente_ruc = ?, factura_tipo = ?, factura_fecha = ?, factura_subtotal = ?, "
-    				+ " factura_iva = ?, factura_descuento = ?, factura_total = ?";
+    				+ " factura_iva = ?, factura_descuento = ?, factura_total = ?, factura_empleado = ?";
     		
     		preparedStatement = connection.prepareStatement(sql);
     		
@@ -41,13 +63,42 @@ public class DBInserts {
     		preparedStatement.setDouble(5, Double.parseDouble(String.valueOf(params[4])));
     		preparedStatement.setDouble(6, Double.parseDouble(String.valueOf(params[5])));
     		preparedStatement.setDouble(7, Double.parseDouble(String.valueOf(params[6])));
-    		
+
+    		preparedStatement.setString(8, String.valueOf(params[7]));
     		preparedStatement.executeUpdate();
     		return "";
     	}catch(SQLException e) {
     		return e.getMessage();
     	}
     }
+
+    public String insertNDet(Object ... params){
+		try {
+			sql = "insert into nota_d set cabecera_id = ?, prod_id = ?, descripcion = ?, tarifa = ?, cantidad = ?, " +
+					"precio_unit = ?, precio_caja = ?, total = ?";
+			preparedStatement = null;
+			preparedStatement = connection.prepareStatement(sql);
+
+			preparedStatement.setInt(1, Integer.parseInt(String.valueOf(params[0])));
+
+			preparedStatement.setString(2, String.valueOf(params[1]));
+			preparedStatement.setString(3, String.valueOf(params[2]));
+			preparedStatement.setString(4, String.valueOf(params[3]));
+
+
+			preparedStatement.setDouble(5, Double.parseDouble(String.valueOf(params[4])));
+			preparedStatement.setDouble(6, Double.parseDouble(String.valueOf(params[5])));
+			preparedStatement.setDouble(7, Double.parseDouble(String.valueOf(params[6])));
+			preparedStatement.setDouble(8, Double.parseDouble(String.valueOf(params[7])));
+
+			preparedStatement.executeUpdate();
+
+			return "";
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+	}
     
     public String insertFacturaDetalle(Object ...params) {
     	try {
@@ -76,7 +127,7 @@ public class DBInserts {
     	}
     }
 
-    public String insertNotaDetalle(String ... params){
+    public String insertNotaCompraDetalle(String ... params){
     	try{
     		sql = "INSERT INTO nota_detalle SET id = ?, prod_id = ?, autorizacion = ?, cantidad = ?, p_unit = ?," +
 					" v_total = ?, pvp_unit = ?, p_caja = ?, v_total_caja = ?, pvp_caja = ?, tarifa = ?";
@@ -138,7 +189,7 @@ public class DBInserts {
     	return "";
     }
 
-    public String insertNotaCabecera(String ... params){
+    public String insertNotaCompraCabecera(String ... params){
     	try{
     		sql = "INSERT INTO nota_cabecera SET autorizacion = ?, idFactura = ?, numeroNota = ?, fechaNota = ?, " +
 					"formaPago = ?, proveedorRuc = ?, plazo = ?, abono = ?, subtotal12 = ?, subtotal0 = ?, iva = ?," +
@@ -205,7 +256,8 @@ public class DBInserts {
     public String insertCliente(String ... params) {
     	try {
     		connect();
-    		sql = "insert into Clientes set cliente_CI = ?, cliente_Nombre = ?, cliente_Telefono = ?, cliente_Direccion = ?, cliente_Email = ?";
+    		sql = "insert into Clientes set cliente_id = ?, cliente_Nombre = ?, cliente_Telefono = ?, " +
+					"cliente_Direccion = ?, cliente_Email = ?";
     		preparedStatement = connection.prepareStatement(sql);
     		preparedStatement.setString(1, params[0]);
     		preparedStatement.setString(2, params[1]);

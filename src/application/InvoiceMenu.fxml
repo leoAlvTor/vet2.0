@@ -10,7 +10,7 @@
    <children>
       <VBox id="menufac" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Button fx:id="btnFacturacion" mnemonicParsing="false" onAction="#abrirFacturacion" prefHeight="100.0" prefWidth="188.0" text="Facturacion">
+            <Button fx:id="btnFacturacion" mnemonicParsing="false" onAction="#abrirFacturacion" prefHeight="75.0" prefWidth="188.0" text="Facturacion">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
@@ -18,7 +18,7 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="btnMenuProd" mnemonicParsing="false" onAction="#abrirMenuProductos" prefHeight="100.0" prefWidth="188.0" text="Menu Productos">
+            <Button fx:id="btnNotas" mnemonicParsing="false" onAction="#abrirNota" prefHeight="75.0" prefWidth="188.0" text="Nota De Venta">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
@@ -26,7 +26,7 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="btnDeudas" mnemonicParsing="false" onAction="#abrirDeudas" prefHeight="100.0" prefWidth="188.0" text="Deudas">
+            <Button fx:id="btnMenuProd" mnemonicParsing="false" onAction="#abrirMenuProductos" prefHeight="75.0" prefWidth="188.0" text="Menu Productos">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
@@ -34,7 +34,15 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="btnMetricas" mnemonicParsing="false" onAction="#abrirMetricas" prefHeight="100.0" prefWidth="188.0" text="Metricas Y Reportes">
+            <Button fx:id="btnDeudas" mnemonicParsing="false" onAction="#abrirDeudas" prefHeight="75.0" prefWidth="188.0" text="Deudas">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnMetricas" mnemonicParsing="false" onAction="#abrirMetricas" prefHeight="75.0" prefWidth="188.0" text="Metricas Y Reportes">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>

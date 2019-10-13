@@ -40,7 +40,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class ControllerInvoice {
 
@@ -64,6 +63,9 @@ public class ControllerInvoice {
     private DBQueries dbQueries;
     
     private Thread t;
+
+    private Controller c = new Controller();
+    private String empleado = c.leerArchivo();
     
     public void initialize(){
     	dbQueries = new DBQueries();
@@ -508,16 +510,30 @@ public class ControllerInvoice {
     	if(!comprobador()) 
     		guardarDatosCabecera();
     }
+
+	private void limpiar(){
+		txtDescuento.setText("0");
+		txtProducto.setText("");
+		txtNombre.setText("");
+		txtSubtotal.setText("0");
+		txtIVA.setText("0");
+		txtNumFac.setText(String.valueOf(Integer.parseInt(txtNumFac.getText())+1));
+		txtTotal.setText("0");
+		txtDireccion.setText("");
+		txtTelefono.setText("");
+		txtRUC.setText("");
+		tblDatos.setItems(null);
+	}
     
     private void guardarDatosCabecera() {
     	DBInserts dbInserts = new DBInserts();
     	dbInserts.connect();
     	if(radioContado.isSelected()) {
     		dbInserts.insertFacturaCabecera(clienteSeleccinado.getCi(), "contado", txtFecha.getText(), txtSubtotal.getText(), txtIVA.getText(),
-    				txtDescuento.getText(), txtTotal.getText());
+    				txtDescuento.getText(), txtTotal.getText(), empleado);
     	}else if(radioCredito.isSelected()) {
     		dbInserts.insertFacturaCabecera(clienteSeleccinado.getCi(), "credito", txtFecha.getText(), txtSubtotal.getText(), txtIVA.getText(),
-    				txtDescuento.getText(), txtTotal.getText());
+    				txtDescuento.getText(), txtTotal.getText(), empleado);
     	}
     	guardarFacturaDetalle(dbInserts);
     }
@@ -527,6 +543,7 @@ public class ControllerInvoice {
     		dbInserts.insertFacturaDetalle(txtNumFac.getText(), p.getCodigo(), p.getDescripcion(), p.getTarifa(), p.getCantidad(),
     				p.getPrecioUnit(), p.getPrecioCaja(), p.getTotal());
     	dbInserts.disconnect();
+    	limpiar();
     }
     
     private boolean comprobador() {
@@ -583,27 +600,7 @@ public class ControllerInvoice {
     	txtIVA.setText(String.valueOf(param.getIva()));
     	txtDescuento.setText(String.valueOf(param.getDescuento()));
     	txtTotal.setText(String.valueOf(param.getTotal()));
-    	
-    	
     	cargarTabla(paramDetalles);
-    	
     }
-    
- 
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SistemaVeterinaria:jar">
+    <output-path>$PROJECT_DIR$/classes/artifacts/SistemaVeterinaria_jar</output-path>
+    <root id="archive" name="vet.jar">
+      <element id="module-output" name="vet" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/dist/lib/controlsfx-8.40.11.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/dist/vet.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/mariadb-java-client-2.4.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/mysql-connector-java-5.1.48.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/joda-time-2.10.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/controlsfx-8.40.11.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/dist/lib/mariadb-java-client-2.4.3.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

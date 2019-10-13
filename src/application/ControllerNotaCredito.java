@@ -526,7 +526,7 @@ public class ControllerNotaCredito {
         if(value != null){
             DBInserts dbInserts = new DBInserts();
             dbInserts.connect();
-            dbInserts.insertNotaCabecera(txtAutorizacionFAC.getText(), txtNumeroFAC.getText(), txtNumeroFAC.getText(),
+            dbInserts.insertNotaCompraCabecera(txtAutorizacionFAC.getText(), txtNumeroFAC.getText(), txtNumeroFAC.getText(),
                     getFecha(dateFecha.getValue()), comboFormaPago.getSelectionModel().getSelectedItem(),
                     txtRUC.getText(), txtCantTiempo.getText(), txtPagoInicial.getText(), txtSubtotal12.getText(),
                     txtSubtotal0.getText(), txtIVA.getText(), txtICE.getText(), txtIRBP.getText(), txtTotal.getText());
@@ -545,7 +545,7 @@ public class ControllerNotaCredito {
 
     private void guardarNotaDetalle(DBInserts param){
         for(ModelDetailPurchase m : tblCompras.getItems())
-            param.insertNotaDetalle(m.getCodigo(), m.getCodigo(), txtAutorizacionFAC.getText(),
+            param.insertNotaCompraDetalle(m.getCodigo(), m.getCodigo(), txtAutorizacionFAC.getText(),
                     String.valueOf(m.getCantidad()), String.valueOf(m.getP_unit()), String.valueOf(m.getV_total()),
                     String.valueOf(m.getPvp_unit()), String.valueOf(m.getP_caja()), String.valueOf(m.getV_total_caja()),
                     String.valueOf(m.getPvp_caja()), m.getTarifa());

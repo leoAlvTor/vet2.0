@@ -324,15 +324,12 @@ public class ControllerPacientDetail {
     private List<String> pacientesList;
     
     private void inicializarRegistro() {
-    	 registrosMedicos = new ArrayList<RegistroMedico>();
+    	 registrosMedicos = new ArrayList<>();
     	 pacientesHashMap = dbQueries.getPatientsNomID();
-    	 pacientesIDNomHashMap = new HashMap<Integer, String>();
-    	 
+    	 pacientesIDNomHashMap = new HashMap<>();
     	 for(Map.Entry<String, Integer> entry : pacientesHashMap.entrySet())
     		 pacientesIDNomHashMap.put(entry.getValue(), entry.getKey());
-    	 
     	 txtPacienteAuto = TextFields.bindAutoCompletion(txtRegNombre, "");
-    	 
     	 cargarAutoCompletado();
     	 setLocalTime();
     }
@@ -344,7 +341,7 @@ public class ControllerPacientDetail {
          
          int hora = now.getHour();
          int minuto = now.getMinute();
-         String time = String.valueOf(hora + ":" + minuto);
+         String time = hora + ":" + minuto;
          txtRegHora.setText(time);
     }
     
@@ -377,20 +374,17 @@ public class ControllerPacientDetail {
     }
     
     public void limpiarRegistro() {
-    	System.out.println("Limpiar registro");
     	txtRegNombre.setText("");
     	txtAreaReg.setText("");
     }
     
     public void cargarRegistros() {
-    	System.out.println("Cargar registros");
     	registrosMedicos = dbQueries.getRegistrosMedicos();
     	mostrarPacientes();
     	listenerTablaRegistros();
     }
     
     public void abrirRegistro() {
-    	System.out.println("Abrir Registro");
     	if(registroMedico != null) {
     		txtRegFecha.setText(registroMedico.getFecha());
     		txtRegHora.setText(registroMedico.getHora());
@@ -407,8 +401,6 @@ public class ControllerPacientDetail {
     }
     
     public void eliminarRegistro() {
-    	System.out.println("Eliminar registro");
-    	
     	if(registroMedico != null) {
     		DBDelete dbDelete = new DBDelete();
         	dbDelete.deleteRegistroMedico(registroMedico.getId());
@@ -422,9 +414,7 @@ public class ControllerPacientDetail {
     	colPaciente.setCellValueFactory(new PropertyValueFactory("paciente_id"));
     	colFecha.setCellValueFactory(new PropertyValueFactory("next_fecha"));
     	colTipoNota.setCellValueFactory(new PropertyValueFactory("tipo"));
-    	
     	registrosObservableList = FXCollections.observableArrayList(registrosMedicos);
-    	
     	tblReg.setItems(registrosObservableList);
     	
     }
