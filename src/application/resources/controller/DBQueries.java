@@ -30,6 +30,60 @@ public class DBQueries {
 
     }
 
+    public List<DeudaDetalle> deudaDetalleList(int param){
+    	List<DeudaDetalle> detalleList = new ArrayList<>();
+    	DeudaDetalle deudaDetalle;
+    	try{
+    		connect();
+    		sql = "select * from deuda_detalle where deuda_id = param";
+    		preparedStatement = connection.prepareStatement(sql);
+    		preparedStatement.setInt(1, param);
+    		resultSet = preparedStatement.executeQuery();
+    		while(resultSet.next()){
+    			deudaDetalle = new DeudaDetalle();
+    			deudaDetalle.setId(resultSet.getInt("id"));
+				deudaDetalle.setDeduda_id(resultSet.getInt("deuda_id"));
+				deudaDetalle.setMonto_cancelado(resultSet.getDouble("monto_cancelado"));
+				deudaDetalle.setFecha(resultSet.getString("fecha"));
+				detalleList.add(deudaDetalle);
+			}
+    		disconnect();
+    		return detalleList;
+		}catch (SQLException e){
+    		disconnect();
+			System.out.println(e.getMessage());
+			return detalleList;
+		}
+	}
+
+    public HashMap<Integer, DeudaCabecera> deudaCabeceraHashMap(){
+    	HashMap<Integer, DeudaCabecera> mapa = new HashMap<>();
+    	DeudaCabecera deudaCabecera;
+    	try{
+    		connect();
+    		sql = "select * from deuda_cabecera";
+    		preparedStatement = connection.prepareStatement(sql);
+    		resultSet = preparedStatement.executeQuery();
+    		while(resultSet.next()){
+    			deudaCabecera = new DeudaCabecera();
+    			deudaCabecera.setId(resultSet.getInt("id"));
+    			deudaCabecera.setRuc(resultSet.getString("ruc"));
+    			deudaCabecera.setId_factura(resultSet.getInt("id_factura"));
+    			deudaCabecera.setFecha_inicial(resultSet.getString("fecha_inicial"));
+    			deudaCabecera.setMonto_original(resultSet.getDouble("monto_original"));
+    			deudaCabecera.setMonto_cancelado(resultSet.getDouble("monto_cancelado"));
+    			deudaCabecera.setEstado(resultSet.getString("estado"));
+				mapa.put(deudaCabecera.getId(), deudaCabecera);
+			}
+    		disconnect();
+    		return mapa;
+		}catch (SQLException e){
+    		disconnect();
+			System.out.println(e.getMessage());
+			return mapa;
+		}
+	}
+
     public HashMap<String, String> mapaAutorizacionIDFacturaNota(){
     	HashMap<String, String> mapa = new HashMap<>();
     	try{
@@ -69,6 +123,7 @@ public class DBQueries {
 			disconnect();
 			return mapaIdCliente;
 		}catch(SQLException e){
+			disconnect();
 			e.printStackTrace();
 		}
 		return mapaIdCliente;
@@ -94,6 +149,7 @@ public class DBQueries {
 			return customer;
 
 		}catch (Exception e){
+			disconnect();
 			System.out.println("Error al obtener datos del producto");
 			return null;
 		}

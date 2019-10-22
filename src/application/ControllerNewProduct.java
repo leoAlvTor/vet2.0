@@ -7,6 +7,7 @@ import application.resources.controller.DBUpdates;
 import application.resources.model.Product;
 import application.resources.model.Provider;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,10 +18,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ControllerNewProduct {
 
@@ -78,9 +76,12 @@ public class ControllerNewProduct {
 
         radioIVA0.setOnAction(event -> {
             radioIVA12.setSelected(false);
-            
-            txtPrecioCajaImp.setText(String.valueOf(valorCajaIVA));
-            txtPrecioUnidadImp.setText(String.valueOf(valorUnidadIVA));
+
+            txtPrecioVCaja.setText(txtPrecioCajaImp.getText());
+            txtPrecioVUnidad.setText(txtPrecioUnidadImp.getText());
+
+            valorCajaIVA = Double.parseDouble(txtPrecioVCaja.getText());
+            valorUnidadIVA = Double.parseDouble(txtPrecioVUnidad.getText());
         });
 
     }
@@ -103,6 +104,10 @@ public class ControllerNewProduct {
         categorias.add("Medicamentos");
         categorias.add("Bebidas");
         categorias.add("OTROS");
+        categorias.add("Hormonas");
+        categorias.add("Semillas");
+        categorias.add("Pestisidas");
+        categorias.add("Insecticidas");
         comboCategoria.setItems(FXCollections.observableArrayList(categorias));
 
         // COMBO TIPO PRESENTACION
@@ -123,7 +128,7 @@ public class ControllerNewProduct {
                 txtPrecioVCaja.setEditable(false);
                 
                 txtPrecioCajaImp.setText("0");
-                txtPrecioCajaImp.setEditable(false);
+                txtPrecioCajaImp.setEditable(true);
                 
             }else if(comboTipoRep.getValue().equals("EMPAQUE")){
                 txtCantidadInt.setEditable(true);
@@ -139,7 +144,9 @@ public class ControllerNewProduct {
             mapaRUCProveedores.put(p.getRuc(), p.getNombre());
             providerName.add(p.getNombre());
         }
-        comboProveedor.setItems(FXCollections.observableArrayList(providerName));
+        ObservableList<String> listaProv = FXCollections.observableArrayList(providerName);
+        Collections.sort(listaProv);
+        comboProveedor.setItems(FXCollections.observableArrayList(listaProv));
     }
 
     private void getProducts(){
@@ -161,7 +168,6 @@ public class ControllerNewProduct {
 
 
     }
-
 
     public void crearProducto() {
         DBInserts dbInserts = new DBInserts();
@@ -189,8 +195,8 @@ public class ControllerNewProduct {
             }else if(backInt == 0){
                 alertOK();
             }
-
         }
+        limpiar();
     }
 
     public void buscarProducto(){
@@ -203,6 +209,7 @@ public class ControllerNewProduct {
     }
 
     private void compareProduct(String id){
+        getProducts();
         Product product;
         if(productHashMap.containsKey(id)) {
             product = productHashMap.get(id);

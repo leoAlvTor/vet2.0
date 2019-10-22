@@ -33,7 +33,9 @@ public class ControllerProductsMenu {
 
     @FXML
     public void openProductos() throws Exception{
+        System.out.println(System.currentTimeMillis() +"\t Milis inicio");
         getStage(btnProveedor, "Productos", "NewProduct.fxml", 693,620);
+        System.out.println(System.currentTimeMillis() + "\t Milis Finales");
     }
 
     public void openNotas() throws Exception{
@@ -42,10 +44,11 @@ public class ControllerProductsMenu {
 
     @FXML
     private void getStage( Button btn, String tittle, String file_name, double width, double height) throws java.io.IOException {
-    	Stage stage = (Stage) btn.getScene().getWindow();
+        Stage stage = (Stage) btn.getScene().getWindow();
         stage.setTitle(tittle);
         File file = new File(file_name);
-        Parent root = FXMLLoader.load(this.getClass().getResource(file.getPath()));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(file.getPath()));
+        Parent root = fxmlLoader.load();
         stage.setScene(new Scene(root, width, height));
         stage.centerOnScreen();
         stage.setResizable(false);

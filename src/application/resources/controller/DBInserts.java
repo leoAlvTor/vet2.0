@@ -128,6 +128,9 @@ public class DBInserts {
     }
 
     public String insertNotaCompraDetalle(String ... params){
+		for (int i = 0; i < params.length; i++) {
+			System.out.println(i + " <<" + params[i]);
+		}
     	try{
     		sql = "INSERT INTO nota_detalle SET id = ?, prod_id = ?, autorizacion = ?, cantidad = ?, p_unit = ?," +
 					" v_total = ?, pvp_unit = ?, p_caja = ?, v_total_caja = ?, pvp_caja = ?, tarifa = ?";
@@ -151,15 +154,14 @@ public class DBInserts {
 			preparedStatement.executeUpdate();
 			return "";
 		}catch (SQLException e){
-    		disconnect();
-			System.out.println(e.getMessage());
+			System.out.println("Nota Compra Detalle:" + e.getMessage());
 			return e.getMessage();
 		}
 	}
     
     public String insertCompraDetalle(Object ... params) {
+
     	try {
-    		
     		sql = "insert into compra_detalle set prod_id = ?, cabecera_id = ?, cantidad = ?, p_unit = ?, v_total = ?," +
 					" pvp_unit = ?, p_caja = ?, v_total_caja = ?, pvp_caja = ?, tarifa = ?, fecha_vencimiento = ?";
     		preparedStatement = null;
@@ -190,6 +192,7 @@ public class DBInserts {
     }
 
     public String insertNotaCompraCabecera(String ... params){
+		System.out.println(params);
     	try{
     		sql = "INSERT INTO nota_cabecera SET autorizacion = ?, idFactura = ?, numeroNota = ?, fechaNota = ?, " +
 					"formaPago = ?, proveedorRuc = ?, plazo = ?, abono = ?, subtotal12 = ?, subtotal0 = ?, iva = ?," +
@@ -215,7 +218,6 @@ public class DBInserts {
 			preparedStatement.executeUpdate();
 			return "";
 		}catch (SQLException e){
-    		disconnect();
 			System.out.println("NOTA CABECERA --> \n" + e.getMessage());
     		return e.getMessage();
 		}
